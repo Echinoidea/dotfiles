@@ -39,7 +39,8 @@ const PowerCtl = () => {
 export const powerctl = Widget.Window({
   name: WINDOW_NAME,
   className: "powerctl-window",
-  anchor: [],
+  //anchor: ["top", "left"],
+  //margins: [4, 0, 0, 120],
   setup: self => self.keybind("Escape", () => {
     App.closeWindow(WINDOW_NAME)
   }),

@@ -1,7 +1,22 @@
+@import "/home/gabriel/.cache/wal/colors-waybar.css";
+
+* {
+  text-shadow: none;
+  color: @foreground;
+  box-shadow: none;
+}
+
+.spacer {
+}
+
 window.bar {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #eceff4;
+  /*background-color: rgba(255, 255, 255, 0.05);*/
   padding-right: 0px;
+  margin: 4px;
+  padding-left: 8px;
+  background-color: @background;
+  opacity: 0.9;
+  border-radius: 16px;
 }
 
 button {
@@ -12,26 +27,20 @@ button:active {
   background-color: inherit;
 }
 
-/*button:hover {*/
-/*  border-right: 1px solid #ebcb8b;*/
-/*}*/
-
 label {
   font-weight: bold;
 }
 
 .workspaces button {
   border: none;
-  /*padding: 4px 8px 8px 4px;*/
   padding: 4px 6px;
   min-width: 16px;
   background: transparent;
   box-shadow: none;
-  color: #eceff4;
 }
 
 .workspaces button.focused {
-  border-right: 1px solid #eceff4;
+  border-right: 1px solid @color7;
   padding: 4px 6px;
 }
 
@@ -39,7 +48,6 @@ label {
   padding-left: 4px;
   margin-top: 8px;
   padding-right: 4px;
-
 }
 
 .modules-bottom {
@@ -65,7 +73,6 @@ label {
   padding: 0px;
   background: transparent;
   box-shadow: none;
-  color: #eceff4;
   font-size: 32px;
 }
 
@@ -74,13 +81,10 @@ label {
   background: rgba(255, 255, 255, 0.05);
 }
 
-
 .settings-button {
-  background: #8087a2;
   font-size: 32px;
-  box-shadow: none;
+  background: @color3;
   border: none;
-  color: #cad3f5;
   border-radius: 8px;
   padding-left: 16px;
   padding-right: 16px;
@@ -96,23 +100,21 @@ label {
 }
 
 .archctl-window {
-
-  background: rgba(236, 239, 244, 0.05);
-  color: #cad3f5;
-
+  background: @background;
+  opacity: 0.9;
+  color: @color3;
   box-shadow: none;
   padding: 8px;
+  border-radius: 16px;
 }
 
 .saturation-slider {
-  color: #cad3f5;
-
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
 .saturation-slider slider {
-  background: #6e738d;
+  background: @color3;
   box-shadow: none;
   border: none;
 }
@@ -122,18 +124,18 @@ label {
 }
 
 .powerctl-window {
-  background: rgba(236, 239, 244, 0.05);
-  color: #cad3f5;
   box-shadow: none;
+  opacity: 0.9;
   padding: 8px;
 }
 
 .powerctl-button {
-  background: #8087a2;
   font-size: 32px;
   box-shadow: none;
   border: none;
-  color: #cad3f5;
   border-radius: 8px;
   padding: 32px 42px;
+}
+
+.calendar {
 }

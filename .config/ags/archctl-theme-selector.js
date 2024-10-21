@@ -25,7 +25,6 @@ export const themeSelector = Widget.Window({
   name: WINDOW_NAME,
   className: "archctl-window",
   anchor: ["left", "top"],
-  //window_position: Gtk.WindowPosition. 
   setup: self => self.keybind("Escape", () => {
     App.closeWindow(WINDOW_NAME)
   }),

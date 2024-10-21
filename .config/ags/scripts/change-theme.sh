@@ -26,7 +26,7 @@ else
   echo "Random image selected: $RANDOM_IMAGE"
   
   # Set wallpaper with swww img
-  swww img "$RANDOM_IMAGE" --transition-type left --filter Nearest --transition-fps 30 --transition-step 2 --transition-duration 1 
+  swww img "$RANDOM_IMAGE" --transition-type left --transition-fps 30 --transition-step 2 --transition-duration 1 
   
   # sleep 0.5
   # Apply the colorscheme with wal

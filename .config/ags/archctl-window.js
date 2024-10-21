@@ -5,7 +5,8 @@ const WINDOW_NAME = "archctl"
 const SettingsButton = (label, onClick) => Widget.Button({
   className: "settings-button",
   label: label,
-  onClicked: onClick,
+  onClicked: onClick
+
 })
 
 let saturation = 0.0;
@@ -23,19 +24,20 @@ const SaturationSlider = () => Widget.Slider({
   ]
 })
 
-// todo)) Icons instead of text 
-// todo)) GTK Stack for icons? dropdown? button?
+const ChangeTheme = () => {
+  Utils.exec(`/home/gabriel/.config/ags/scripts/change-theme.sh /home/gabriel/.config/ags/wallpapers/ ${saturation}`);
+  App.config({ style: "./style.css" });
+  App.closeWindow(WINDOW_NAME);
+}
 
-const ArchCtl = ({ width = 500, height = 500, spacing = 12 }) => {
-
-  // search entry
+const ArchCtl = () => {
   return Widget.Box({
 
     className: "archctl-window",
     vertical: true,
     spacing: 8,
-    children: [
 
+    children: [
       Widget.Label({
         label: "Theme"
       }),
@@ -44,11 +46,10 @@ const ArchCtl = ({ width = 500, height = 500, spacing = 12 }) => {
         className: "archctl-window-column",
         vertical: false,
         spacing: 8,
-        //
         children: [
-          SettingsButton("", () => Utils.exec(`/home/gabriel/.config/ags/scripts/change-theme.sh /home/gabriel/pictures/waneella-wallpapers/desktop-favorites/ ${saturation}`)),
+          SettingsButton("", () => Utils.exec(`/home/gabriel/.config/ags/scripts/change-theme.sh /home/gabriel/.config/ags/wallpapers/ ${saturation}`)),
 
-          SettingsButton("", () => Utils.exec(`/home/gabriel/.config/ags/scripts/change-theme.sh /home/gabriel/pictures/waneella-wallpapers/desktop-favorites/ ${saturation}`)),
+          SettingsButton("", () => ChangeTheme()),
         ]
       }),
 
@@ -57,7 +58,6 @@ const ArchCtl = ({ width = 500, height = 500, spacing = 12 }) => {
       Widget.Label({
         label: "System"
       }),
-      //SettingsButton("⏻", () => Utils.exec("wlogout"))
       SettingsButton("⏻", () => { App.ToggleWindow("powerctl") })
     ],
     setup: self => self.hook(App, (_, windowName, visible) => {
@@ -67,19 +67,23 @@ const ArchCtl = ({ width = 500, height = 500, spacing = 12 }) => {
   })
 }
 
-// there needs to be only one instance
-export const archctl = Widget.Window({
-  name: WINDOW_NAME,
-  className: "archctl-window",
-  anchor: ["top", "left"],
-  setup: self => self.keybind("Escape", () => {
-    App.closeWindow(WINDOW_NAME)
-  }),
-  visible: false,
-  keymode: "on-demand",
-  child: ArchCtl({
-    width: 500,
-    height: 500,
-    spacing: 12,
-  }),
-})
+export const archctl = () => {
+  return (
+    Widget.Window({
+      name: WINDOW_NAME,
+      className: "archctl-window",
+      margins: [4, 0, 0, 4],
+      anchor: ["top", "left"],
+      exclusivity: "normal",
+      setup: self => self.keybind("Escape", () => {
+        App.closeWindow(WINDOW_NAME)
+      }),
+      visible: false,
+      keymode: "exclusive",
+      child: Widget.Box({
+        children: [
+          ArchCtl()
+        ]
+      })
+    }))
+}

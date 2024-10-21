@@ -70,6 +70,28 @@ function Clock() {
   })
 }
 
+const calendar = Widget.Calendar({
+  className: "calendar",
+  showDayNames: true,
+  showDetails: true,
+  showHeading: true,
+  showWeekNumbers: true,
+  detail: (self, y, m, d) => {
+    return `<span color="white">${y}. ${m}. ${d}.</span>`
+  },
+  onDaySelected: ({ date: [y, m, d] }) => {
+    print(`${y}. ${m}. ${d}.`)
+  },
+})
+
+
+function CalendarWindow() {
+  return Widget.Window({
+    child: calendar
+  })
+}
+
+
 function DateDisplay() {
   return Widget.Label({
     class_name: "date",
@@ -277,7 +299,9 @@ function Bar(monitor = 0) {
     name: `bar-${monitor}`, // name has to be unique
     class_name: "bar",
     monitor,
-    anchor: ["left", "top", "bottom"],
+    heightRequest: 1072,
+    anchor: ["left"],
+    margins: [0, 0, 0, 4],
     exclusivity: "exclusive",
     child: Widget.CenterBox({
       vertical: true,
@@ -293,9 +317,10 @@ App.config({
   style: "./style.css",
   windows: [
     Bar(),
-    archctl,
+    archctl(),
     themeSelector,
-    powerctl
+    powerctl,
+    //CalendarWindow()
     // you can call it, for each monitor
     // Bar(0),
     // Bar(1)
