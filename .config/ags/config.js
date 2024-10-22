@@ -1,6 +1,6 @@
 import { powerctl } from "./powerctl-window.js"
 import { themeSelector } from "./archctl-theme-selector.js"
-import { archctl } from "./archctl-window.js"
+import { ArchCtl } from "./archctl.js"
 
 const hyprland = await Service.import("hyprland")
 const notifications = await Service.import("notifications")
@@ -70,27 +70,27 @@ function Clock() {
   })
 }
 
-const calendar = Widget.Calendar({
-  className: "calendar",
-  showDayNames: true,
-  showDetails: true,
-  showHeading: true,
-  showWeekNumbers: true,
-  detail: (self, y, m, d) => {
-    return `<span color="white">${y}. ${m}. ${d}.</span>`
-  },
-  onDaySelected: ({ date: [y, m, d] }) => {
-    print(`${y}. ${m}. ${d}.`)
-  },
-})
+//const calendar = Widget.Calendar({
+//  className: "calendar",
+//  showDayNames: true,
+//  showDetails: true,
+//  showHeading: true,
+//  showWeekNumbers: true,
+//  detail: (self, y, m, d) => {
+//    return `<span color="white">${y}. ${m}. ${d}.</span>`
+//  },
+//  onDaySelected: ({ date: [y, m, d] }) => {
+//    print(`${y}. ${m}. ${d}.`)
+//  },
+//})
 
 
-function CalendarWindow() {
-  return Widget.Window({
-    child: calendar
-  })
-}
-
+//function CalendarWindow() {
+//  return Widget.Window({
+//    child: calendar
+//  })
+//}
+//
 
 function DateDisplay() {
   return Widget.Label({
@@ -206,13 +206,13 @@ function BatteryLabel() {
   })
 }
 
-function ArchCtl() {
+function ArchCtlTrigger() {
   return Widget.Button({
     label: "",
     class_name: "archctl",
     //on_primary_click: () => Utils.exec("/home/gabriel/.config/ags/scripts/change-theme.sh /home/gabriel/pictures/waneella-wallpapers/desktop-favorites/")
     on_primary_click: () => {
-      App.ToggleWindow("archctl")
+      App.ToggleWindow("ArchCtl")
     }
   })
 }
@@ -265,7 +265,7 @@ function Top() {
     vertical: true,
     spacing: 8,
     children: [
-      ArchCtl(),
+      ArchCtlTrigger(),
       BatteryLabel(),
       CpuTemp()
     ],
@@ -317,7 +317,7 @@ App.config({
   style: "./style.css",
   windows: [
     Bar(),
-    archctl(),
+    ArchCtl(),
     themeSelector,
     powerctl,
     //CalendarWindow()
