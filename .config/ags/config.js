@@ -1,5 +1,4 @@
 import { powerctl } from "./powerctl-window.js"
-import { themeSelector } from "./archctl-theme-selector.js"
 import { ArchCtl } from "./archctl.js"
 
 const hyprland = await Service.import("hyprland")
@@ -49,6 +48,7 @@ const Workspaces = () => Widget.EventBox({
     class_name: "workspaces",
     children: Array.from({ length: 5 }, (_, i) => i + 1).map(i => Widget.Button({
       class_name: activeId.as(activeWsId => `${i === activeWsId ? "focused" : ""}`),
+      xalign: 0.3,
       label: activeId.as(activeWsId => `${i === activeWsId ? "" : i}`),
       onClicked: () => dispatch(i),
     })),
@@ -211,6 +211,7 @@ function ArchCtlTrigger() {
     label: "",
     class_name: "archctl",
     //on_primary_click: () => Utils.exec("/home/gabriel/.config/ags/scripts/change-theme.sh /home/gabriel/pictures/waneella-wallpapers/desktop-favorites/")
+    xalign: 0.25,
     on_primary_click: () => {
       App.ToggleWindow("ArchCtl")
     }
@@ -318,12 +319,7 @@ App.config({
   windows: [
     Bar(),
     ArchCtl(),
-    themeSelector,
     powerctl,
-    //CalendarWindow()
-    // you can call it, for each monitor
-    // Bar(0),
-    // Bar(1)
   ],
 })
 
