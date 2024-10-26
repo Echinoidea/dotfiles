@@ -34,12 +34,14 @@ let selectedTheme = null;
 const ShuffleTheme = () => {
   Utils.execAsync(
     `${AGS_PATH}/scripts/change-theme.sh ${AGS_PATH}/wallpapers/ ${saturation}`
-  );
+  ).then(() => {
+    App.config({ style: "./style.css" });
+  });
 
   Utils.execAsync(
     `${AGS_PATH}/scripts/dunst-theme.sh`
   )
-  App.config({ style: "./style.css" });
+
   App.closeWindow(WINDOW_NAME);
 };
 
@@ -56,12 +58,13 @@ const ChangeTheme = (themeJson) => {
 
   Utils.execAsync(
     `${AGS_PATH}/scripts/set-theme.sh ${AGS_PATH}/wallpapers/${themeJson[themeIndex]} ${saturation}`
-  );
+  ).then(() => {
+    App.config({ style: "./style.css" });
+  });
 
   Utils.execAsync(
     `${AGS_PATH}/scripts/dunst-theme.sh`
   )
-  App.config({ style: "./style.css" });
   App.closeWindow(WINDOW_NAME);
   themeIndex++;
 };
