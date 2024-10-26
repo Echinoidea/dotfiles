@@ -32,9 +32,13 @@ const SaturationSlider = () =>
 let selectedTheme = null;
 
 const ShuffleTheme = () => {
-  Utils.exec(
+  Utils.execAsync(
     `${AGS_PATH}/scripts/change-theme.sh ${AGS_PATH}/wallpapers/ ${saturation}`
   );
+
+  Utils.execAsync(
+    `${AGS_PATH}/scripts/dunst-theme.sh`
+  )
   App.config({ style: "./style.css" });
   App.closeWindow(WINDOW_NAME);
 };
@@ -50,9 +54,13 @@ const ChangeTheme = (themeJson) => {
     themeIndex = 0;
   }
 
-  Utils.exec(
+  Utils.execAsync(
     `${AGS_PATH}/scripts/set-theme.sh ${AGS_PATH}/wallpapers/${themeJson[themeIndex]} ${saturation}`
   );
+
+  Utils.execAsync(
+    `${AGS_PATH}/scripts/dunst-theme.sh`
+  )
   App.config({ style: "./style.css" });
   App.closeWindow(WINDOW_NAME);
   themeIndex++;

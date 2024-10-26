@@ -1,8 +1,9 @@
 import { powerctl } from "./powerctl-window.js"
 import { ArchCtl } from "./archctl.js"
+//import { NotificationPopups } from "./notifications.js"
 
 const hyprland = await Service.import("hyprland")
-const notifications = await Service.import("notifications")
+//const notifications = await Service.import("notifications")
 const audio = await Service.import("audio")
 const battery = await Service.import("battery")
 
@@ -320,6 +321,7 @@ App.config({
     Bar(),
     ArchCtl(),
     powerctl,
+    //NotificationPopups()
   ],
 })
 

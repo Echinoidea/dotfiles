@@ -5,6 +5,7 @@ const PowerCtlButton = (label, onClick) => {
     Widget.Button({
       className: "powerctl-button",
       label: label,
+      xalign: 0,
       onClicked: () => {
         onClick();
         App.closeWindow(WINDOW_NAME)
@@ -23,7 +24,7 @@ const PowerCtl = () => {
     vertical: false,
     spacing: 16,
     children: [
-      PowerCtlButton("⏻", () => Utils.exec("systemctl poweroff")),
+      PowerCtlButton("󰐥", () => Utils.exec("systemctl poweroff")),
       PowerCtlButton("", () => Utils.exec("systemctl suspend")),
       PowerCtlButton("", () => Utils.exec("systemctl reboot")),
       // todo)) Lock with hyprlock

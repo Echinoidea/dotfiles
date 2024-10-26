@@ -1,0 +1,45 @@
+
+[global]
+    width = 300
+    offset = 5x5
+
+    origin = bottom-right
+    
+    progress_bar_min_width = 280
+    progress_bar_max_width = 280
+    progress_bar_corner_radius = 2
+
+    padding = 10
+    horizontal_padding = 10
+    frame_width = 0
+    gap_size = 3
+    font = "FiraCode Nerd Font 11"
+
+    enable_recursive_icon_lookup = true
+    corner_radius = 16
+
+    background = "#0c1815CC"
+    foreground = "#efddcdCC"
+
+[urgency_low]
+    background = "#0c1815CC"
+    highlight = "#7e91b1CC"
+    frame_color = "#efddcdCC"
+    default_icon = "none"
+    format = "<b><span foreground="#b5acb7">%s</span></b>\n%b"
+
+[urgency_normal]
+    background = "#0c1815CC"
+    highlight = "#7e91b1CC"
+    frame_color = "#efddcdCC"
+    default_icon = "none"
+    format = "<b><span foreground='#efddcdCC'>%s</span></b>\n%b"
+
+    transparency = 50
+
+[urgency_critical]
+    background = "#0c1815CC"
+    highlight = "#7e91b1CC"
+    frame_color = "#efddcdCC"
+    default_icon = ""
+    format = "<b><span foreground="#b5acb7">%s</span></b>\n%b"

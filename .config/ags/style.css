@@ -135,7 +135,7 @@ label {
 
 .powerctl-button {
   font-size: 32px;
-  box-shadow: none;
+  background: @color3;
   border: none;
   border-radius: 8px;
   padding: 32px 42px;
@@ -160,4 +160,20 @@ label {
 
 .menuitem:hover {
   background: @color4;
+}
+
+/*NOTIFICATIONS */
+.notifications {
+  min-width: 300px;
+  min-height: 40px;
+}
+
+.notification {
+  background: @background;
+  border-radius: 16px;
+  color: @color3;
+}
+
+.title {
+  color: @color8;
 }
