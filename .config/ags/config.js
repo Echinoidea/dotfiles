@@ -1,5 +1,6 @@
 import { powerctl } from "./powerctl-window.js"
 import { ArchCtl } from "./archctl.js"
+import { rgbToHex } from "./utils/rgbToHex.js"
 //import { NotificationPopups } from "./notifications.js"
 
 const hyprland = await Service.import("hyprland")
@@ -122,41 +123,6 @@ function Notification() {
   })
 }
 
-function Volume() {
-  const icons = {
-    101: "overamplified",
-    67: "high",
-    34: "medium",
-    1: "low",
-    0: "muted",
-  }
-
-  function getIcon() {
-    const icon = audio.speaker.is_muted ? 0 : [101, 67, 34, 1, 0].find(
-      threshold => threshold <= audio.speaker.volume * 100)
-
-    return `audio-volume-${icons[icon]}-symbolic`
-  }
-
-  const icon = Widget.Icon({
-    icon: Utils.watch(getIcon(), audio.speaker, getIcon),
-  })
-
-  const slider = Widget.Slider({
-    vexpand: true,
-    draw_value: false,
-    on_change: ({ value }) => audio.speaker.volume = value,
-    setup: self => self.hook(audio.speaker, () => {
-      self.value = audio.speaker.volume || 0
-    }),
-  })
-
-  return Widget.Box({
-    class_name: "volume",
-    css: "min-width: 180px",
-    children: [icon, slider],
-  })
-}
 
 function BatteryLabel() {
   const value = battery.bind("percent").emitter.percent;
@@ -259,6 +225,62 @@ function CpuTemp() {
     ],
   })
 }
+const volumeIcon = Widget.Icon({ className: "volumeIcon" }).hook(audio.speaker, self => {
+
+  const vol = audio.speaker.volume * 100;
+  const icon = [
+    [101, 'overamplified'],
+    [67, 'high'],
+    [34, 'medium'],
+    [1, 'low'],
+    [0, 'muted'],
+  ].find(([threshold]) => Number(threshold) <= Number(vol))?.[1];
+
+  self.icon = `audio-volume-${icon}-symbolic`;
+  self.tooltip_text = `volume ${Math.floor(vol)}%`;
+})
+
+function Volume() {
+  const scaleTo255 = (value) => {
+    value = Math.max(0, Math.min(100, value));
+
+    return Math.round((value / 100) * 255);
+  }
+
+  const getColor = function(value) {
+    return (rgbToHex(scaleTo255(value) + 25, scaleTo255(value) + 25, scaleTo255(value) + 25));
+  }
+
+  const vol = audio.speaker.volume;
+  console.log(vol)
+
+  return Widget.Box({
+    class_name: "cpu-temp",
+    vertical: true,
+    children: [
+      Widget.CircularProgress({
+        rounded: false,
+        inverted: false,
+        startAt: 0.75,
+        value: vol,
+        child: volumeIcon,
+      }).hook(audio.speaker, (self) => {
+        // Set the progress value and color dynamically
+        const vol = audio.speaker.volume * 100; // Convert to percentage
+        self.value = vol / 100; // `value` expects a 0-1 range
+        self.css = `
+          min-width: 24px;
+          min-height: 24px;
+          font-size: 2px;
+          margin: 1px;
+          background-color: #171717;
+          color: ${getColor(vol)};
+        `;
+      }),
+    ]
+  })
+
+}
 
 // layout of the bar
 function Top() {
@@ -269,7 +291,8 @@ function Top() {
     children: [
       ArchCtlTrigger(),
       BatteryLabel(),
-      CpuTemp()
+      CpuTemp(),
+      Volume()
     ],
   })
 }

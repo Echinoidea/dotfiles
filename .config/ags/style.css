@@ -45,6 +45,7 @@ label {
   border-right: 1px solid @color7;
   padding: 4px 6px;
   font-size: 10px;
+  color: @color8;
 }
 
 .modules-top {
@@ -160,6 +161,10 @@ label {
 
 .menuitem:hover {
   background: @color4;
+}
+
+.volumeIcon {
+  font-size: 13px;
 }
 
 /*NOTIFICATIONS */
