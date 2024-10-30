@@ -30,7 +30,7 @@ else
   
   # sleep 0.5
   # Apply the colorscheme with wal
-  wal -i "$RANDOM_IMAGE" --saturate "$SATURATE" 
+  # wal -i "$RANDOM_IMAGE" --saturate "$SATURATE" 
 fi
 
 exit

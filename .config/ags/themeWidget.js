@@ -135,6 +135,24 @@ const WallpaperMenuItem = (label, path) =>
     },
   });
 
+const VimPaletteMenuItem = (fileName) =>
+  Widget.MenuItem({
+    className: "menuitem",
+    name: fileName,
+    child: Widget.Label({
+      className: "menuitem-label",
+      label: fileName,
+    }),
+    onActivate: () => {
+
+      Utils.execAsync(
+        `wal -f ${AGS_PATH}/vim-palettes/${fileName}`
+      ).then(() => {
+        App.config({ style: "./style.css" });
+      });
+    },
+  });
+
 const ThemeDropdown = (paths) =>
   Widget.Button({
     className: "dropdown-trigger",
@@ -162,6 +180,20 @@ const WallpaperDropdown = (paths) =>
     },
   });
 
+
+const VimPaletteDropdown = (paths) =>
+  Widget.Button({
+    className: "dropdown-trigger",
+    label: "vim",
+    xalign: 0.5,
+    on_primary_click: (_, event) => {
+      Widget.Menu({
+        className: "dropdown-menu",
+        children: paths.map((path) => VimPaletteMenuItem(path)),
+      }).popup_at_pointer(event);
+    },
+  });
+
 export const GetThemes = () => {
   const paths = Utils.exec(`ls ${AGS_PATH}/themes/`).split("\n");
   return paths.map((themePath) =>
@@ -179,6 +211,10 @@ const GetThemeWallpapers = (themeName) => {
 
 const GetWallpaperPaths = () => {
   return Utils.exec(`ls ${AGS_PATH}/wallpapers`).split("\n").filter(Boolean);
+}
+
+const GetVimPalettePaths = () => {
+  return Utils.exec(`ls ${AGS_PATH}/vim-palettes`).split('\n').filter(Boolean);
 }
 
 
@@ -272,7 +308,7 @@ export const themeWidget = () => {
             }),
 
             SettingsButton("wal", ExecPywal),
-            SettingsButton("vim", null),
+            VimPaletteDropdown(GetVimPalettePaths())
 
           ]
         }),

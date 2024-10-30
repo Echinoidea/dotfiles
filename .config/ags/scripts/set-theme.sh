@@ -17,6 +17,6 @@ fi
 swww img "$IMAGE" --transition-type left --transition-fps 30 --transition-step 2 --transition-duration 1
 
 # Apply the colorscheme with wal
-wal -i "$IMAGE" --saturate "$SATURATE"
+# wal -i "$IMAGE" --saturate "$SATURATE"
 
 exit
