@@ -106,7 +106,7 @@ label {
 .archctl-window {
   background: @background;
   font-size: 12px;
-  opacity: 0.9;
+  opacity: 1;
   color: @color3;
   box-shadow: none;
   padding: 8px;
@@ -180,5 +180,59 @@ label {
 }
 
 .title {
+  color: @color8;
+}
+
+.theme-settings-button {
+  font-size: 16px;
+  background: @color3;
+  border: none;
+  border-radius: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.theme-settings-button:hover {
+  box-shadow: none;
+}
+
+.theme-settings-button:focus {
+  box-shadow: none;
+  border: none;
+}
+
+.color1,
+.color2,
+.color3,
+.color4,
+.color5,
+.color6,
+.color7,
+.color8 {
+  font-size: 30px;
+}
+
+.color1 {
+  color: @color1;
+}
+.color2 {
+  color: @color2;
+}
+.color3 {
+  color: @color3;
+}
+.color4 {
+  color: @color4;
+}
+.color5 {
+  color: @color5;
+}
+.color6 {
+  color: @color6;
+}
+.color7 {
+  color: @color7;
+}
+.color8 {
   color: @color8;
 }

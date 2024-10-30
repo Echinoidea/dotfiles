@@ -54,11 +54,6 @@ const Workspaces = () => Widget.EventBox({
       label: activeId.as(activeWsId => `${i === activeWsId ? "" : i}`),
       onClicked: () => dispatch(i),
     })),
-
-    // remove this setup hook if you want fixed number of buttons
-    //setup: self => self.hook(hyprland, () => self.children.forEach(btn => {
-    //  btn.visible = hyprland.workspaces.some(ws => ws.id === btn.attribute);
-    //})),
   }),
 })
 
@@ -72,28 +67,6 @@ function Clock() {
   })
 }
 
-//const calendar = Widget.Calendar({
-//  className: "calendar",
-//  showDayNames: true,
-//  showDetails: true,
-//  showHeading: true,
-//  showWeekNumbers: true,
-//  detail: (self, y, m, d) => {
-//    return `<span color="white">${y}. ${m}. ${d}.</span>`
-//  },
-//  onDaySelected: ({ date: [y, m, d] }) => {
-//    print(`${y}. ${m}. ${d}.`)
-//  },
-//})
-
-
-//function CalendarWindow() {
-//  return Widget.Window({
-//    child: calendar
-//  })
-//}
-//
-
 function DateDisplay() {
   return Widget.Label({
     class_name: "date",
@@ -101,25 +74,6 @@ function DateDisplay() {
     maxWidthChars: 2,
     wrap: true,
     label: time.bind(),
-  })
-}
-
-
-// we don't need dunst or any other notification daemon
-// because the Notifications module is a notification daemon itself
-function Notification() {
-  const popups = notifications.bind("popups")
-  return Widget.Box({
-    class_name: "notification",
-    visible: popups.as(p => p.length > 0),
-    children: [
-      Widget.Icon({
-        icon: "preferences-system-notifications-symbolic",
-      }),
-      Widget.Label({
-        label: popups.as(p => p[0]?.summary || ""),
-      }),
-    ],
   })
 }
 
@@ -143,7 +97,6 @@ function BatteryLabel() {
       return "#eceff4";
     }
   };
-
 
 
   return Widget.Box({
@@ -177,7 +130,6 @@ function ArchCtlTrigger() {
   return Widget.Button({
     label: "",
     class_name: "archctl",
-    //on_primary_click: () => Utils.exec("/home/gabriel/.config/ags/scripts/change-theme.sh /home/gabriel/pictures/waneella-wallpapers/desktop-favorites/")
     xalign: 0.25,
     on_primary_click: () => {
       App.ToggleWindow("ArchCtl")
