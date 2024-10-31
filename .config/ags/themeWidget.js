@@ -28,9 +28,7 @@ const getSelectedWallpaper = () => {
   let currentWallpaperPath = Utils.exec("cat /home/gabriel/.cache/swww/eDP-1").trim();
   let convertedWallpaperPath = currentWallpaperPath.replace(/\.gif$/, ".png");
 
-  // Check if the file is a GIF
   if (currentWallpaperPath.endsWith(".gif")) {
-    // Extract the first frame of the GIF and save it as a PNG
     Utils.exec(`ffmpeg -i "${currentWallpaperPath}" -frames:v 1 "${convertedWallpaperPath}"`);
     return (convertedWallpaperPath);
   } else {
@@ -132,6 +130,8 @@ const WallpaperMenuItem = (label, path) =>
       ).then(() => {
         App.config({ style: "./style.css" });
       });
+
+
     },
   });
 
@@ -150,6 +150,11 @@ const VimPaletteMenuItem = (fileName) =>
       ).then(() => {
         App.config({ style: "./style.css" });
       });
+
+
+      Utils.execAsync(
+        `${AGS_PATH}/scripts/dunst-theme.sh`
+      )
     },
   });
 

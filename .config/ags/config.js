@@ -273,7 +273,7 @@ function Bottom() {
 
 function Bar(monitor = 0) {
   return Widget.Window({
-    name: `bar-${monitor}`, // name has to be unique
+    name: `bar-${monitor}`,
     class_name: "bar",
     monitor,
     heightRequest: 1072,
@@ -296,7 +296,6 @@ App.config({
     Bar(),
     ArchCtl(),
     powerctl,
-    //NotificationPopups()
   ],
 })
 
