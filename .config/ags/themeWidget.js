@@ -188,6 +188,7 @@ const WallpaperDropdown = (paths) =>
 
 const VimPaletteDropdown = (paths) =>
   Widget.Button({
+    css: `font-size: 16px;`,
     className: "dropdown-trigger",
     label: "vim",
     xalign: 0.5,
