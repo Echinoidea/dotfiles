@@ -12,7 +12,7 @@ const SettingsButton = (label, onClick) =>
   });
 
 
-const Main = () =>
+const Main = (time, date) =>
   Widget.Box({
     className: "archctl-window",
     vertical: true,
@@ -24,7 +24,7 @@ const Main = () =>
         vertical: true,
         spacing: 8,
         children: [
-          clockWidget(),
+          clockWidget(time, date),
           themeWidget()
         ],
       }),
@@ -36,7 +36,7 @@ const Main = () =>
   });
 
 
-export const ArchCtl = () => {
+export const ArchCtl = (time, date) => {
   GetThemes();
   return Widget.Window({
     name: WINDOW_NAME,

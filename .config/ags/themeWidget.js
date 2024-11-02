@@ -65,27 +65,39 @@ const ChangeTheme = (themeJson) => {
 
   Utils.execAsync(
     `${AGS_PATH}/scripts/set-theme.sh ${AGS_PATH}/wallpapers/${themeJson[themeIndex]} ${saturation}`
-  ).then(() => {
-    App.config({ style: "./style.css" });
-    selectedWallpaper.value = getSelectedWallpaper();
-  });
-
-  Utils.execAsync(
-    `${AGS_PATH}/scripts/dunst-theme.sh`
   )
+    .then(() => {
+      App.config({ style: "./style.css" });
+      selectedWallpaper.value = getSelectedWallpaper();
+
+      return Utils.execAsync(`${AGS_PATH}/scripts/dunst-theme.sh`);
+    })
+    .then(() => {
+      console.log("dunst-theme.sh executed successfully.");
+    })
+    .catch((error) => {
+      console.log("Error during set-theme.sh or dunst-theme.sh execution");
+      console.log(error);
+    });
+
   App.closeWindow(WINDOW_NAME);
   themeIndex++;
 };
 
 const ExecPywal = () => {
-  console.log(selectedWallpaper.value)
-  Utils.execAsync(`wal -i ${selectedWallpaper.value} --saturate ${saturation}`).then(() => {
-    App.config({ style: "./style.css" });
-  });
+  Utils.execAsync(`wal -i ${selectedWallpaper.value} --saturate ${saturation}`)
+    .then(() => {
+      App.config({ style: "./style.css" });
+      return Utils.execAsync(`${AGS_PATH}/scripts/dunst-theme.sh`); // Chain the next command
+    })
+    .then(() => {
+      console.log("dunst-theme.sh executed successfully.");
+    })
+    .catch((error) => {
+      console.log("Error during pywal -i or dunst-theme.sh execution");
+      console.log(error);
+    });
 
-  Utils.execAsync(
-    `${AGS_PATH}/scripts/dunst-theme.sh`
-  )
 }
 
 const SettingsButton = (label, onClick) =>
@@ -147,14 +159,18 @@ const VimPaletteMenuItem = (fileName) =>
 
       Utils.execAsync(
         `wal -f ${AGS_PATH}/vim-palettes/${fileName}`
-      ).then(() => {
-        App.config({ style: "./style.css" });
-      });
-
-
-      Utils.execAsync(
-        `${AGS_PATH}/scripts/dunst-theme.sh`
       )
+        .then(() => {
+          App.config({ style: "./style.css" });
+          return Utils.execAsync(`${AGS_PATH}/scripts/dunst-theme.sh`); // Chain the next command
+        })
+        .then(() => {
+          console.log("dunst-theme.sh executed successfully.");
+        })
+        .catch((error) => {
+          console.log("Error during pywal -i or dunst-theme.sh execution");
+          console.log(error);
+        });
     },
   });
 

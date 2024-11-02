@@ -17,6 +17,17 @@ const date = Variable("", {
   poll: [1000, 'date "+%m\n%e"'],
 })
 
+
+
+const clockWidgetTime = Variable("", {
+  poll: [1000, 'date "+%I:%M"'],
+})
+
+const clockWidgetDate = Variable("", {
+  poll: [6000, 'date "+%Y/%m/%e\n%A"'],
+})
+
+
 const divide = ([total, free]) => free / total
 
 const cpu = Variable(0, {
@@ -276,7 +287,7 @@ function Bar(monitor = 0) {
     name: `bar-${monitor}`,
     class_name: "bar",
     monitor,
-    heightRequest: 1072,
+    heightRequest: 1064,
     anchor: ["left"],
     margins: [0, 0, 0, 4],
     exclusivity: "exclusive",
@@ -294,7 +305,7 @@ App.config({
   style: "./style.css",
   windows: [
     Bar(),
-    ArchCtl(),
+    ArchCtl(clockWidgetTime.value, clockWidgetDate.value),
     powerctl,
   ],
 })
