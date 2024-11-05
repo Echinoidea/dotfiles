@@ -1,7 +1,14 @@
+import GLib from "gi://GLib";
 
 const WINDOW_NAME = "ArchCtl";
 
-const AGS_PATH = "/home/gabriel/.config/ags";
+const XDG_CONFIG_PATH = GLib.getenv('XDG_CONFIG_HOME') || `${GLib.get_home_dir()}/.config`;
+const XDG_CACHE_PATH = GLib.getenv('XDG_CACHE_HOME') || `${GLib.get_home_dir()}/.cache`;
+
+const SCRIPTS_PATH = `${XDG_CONFIG_PATH}/ags/scripts`;
+const CONFIGS_PATH = `${XDG_CONFIG_PATH}/ags/configs`;
+const ASSETS_PATH = `${XDG_CONFIG_PATH}/ags/assets`;
+
 function roundToNearestN(num, n) {
   return Math.round(num / n) * n;
 }
@@ -25,7 +32,7 @@ const SaturationSlider = () =>
 let selectedTheme = null;
 
 const getSelectedWallpaper = () => {
-  let currentWallpaperPath = Utils.exec("cat /home/gabriel/.cache/swww/eDP-1").trim();
+  let currentWallpaperPath = Utils.exec(`cat ${XDG_CACHE_PATH}/swww/eDP-1`).trim();
   let convertedWallpaperPath = currentWallpaperPath.replace(/\.gif$/, ".png");
 
   if (currentWallpaperPath.endsWith(".gif")) {
@@ -40,14 +47,14 @@ let selectedWallpaper = Variable(getSelectedWallpaper());
 
 const ShuffleTheme = () => {
   Utils.execAsync(
-    `${AGS_PATH}/scripts/change-theme.sh ${AGS_PATH}/wallpapers/ ${saturation}`
+    `${SCRIPTS_PATH}/change-theme.sh ${ASSETS_PATH}/wallpapers/ ${saturation}`
   ).then(() => {
     App.config({ style: "./style.css" });
     selectedWallpaper.setValue(getSelectedWallpaper());
   });
 
   Utils.execAsync(
-    `${AGS_PATH}/scripts/dunst-theme.sh`
+    `${SCRIPTS_PATH}/dunst-theme.sh`
   )
   App.closeWindow(WINDOW_NAME);
 };
@@ -64,13 +71,13 @@ const ChangeTheme = (themeJson) => {
   }
 
   Utils.execAsync(
-    `${AGS_PATH}/scripts/set-theme.sh ${AGS_PATH}/wallpapers/${themeJson[themeIndex]} ${saturation}`
+    `${SCRIPTS_PATH}/set-theme.sh ${ASSETS_PATH}/wallpapers/${themeJson[themeIndex]} ${saturation}`
   )
     .then(() => {
       App.config({ style: "./style.css" });
       selectedWallpaper.value = getSelectedWallpaper();
 
-      return Utils.execAsync(`${AGS_PATH}/scripts/dunst-theme.sh`);
+      return Utils.execAsync(`${SCRIPTS_PATH}/dunst-theme.sh`);
     })
     .then(() => {
       console.log("dunst-theme.sh executed successfully.");
@@ -88,7 +95,8 @@ const ExecPywal = () => {
   Utils.execAsync(`wal -i ${selectedWallpaper.value} --saturate ${saturation}`)
     .then(() => {
       App.config({ style: "./style.css" });
-      return Utils.execAsync(`${AGS_PATH}/scripts/dunst-theme.sh`); // Chain the next command
+      Utils.exec("pywalfox update")
+      return Utils.execAsync(`${SCRIPTS_PATH}/dunst-theme.sh`); // Chain the next command
     })
     .then(() => {
       console.log("dunst-theme.sh executed successfully.");
@@ -135,10 +143,10 @@ const WallpaperMenuItem = (label, path) =>
 
     }),
     onActivate: () => {
-      selectedWallpaper.setValue(`${AGS_PATH}/wallpapers/${label}`)
+      selectedWallpaper.setValue(`${ASSETS_PATH}/wallpapers/${label}`)
 
       Utils.execAsync(
-        `${AGS_PATH}/scripts/set-theme.sh ${selectedWallpaper.value} ${saturation}`
+        `${SCRIPTS_PATH}/set-theme.sh ${selectedWallpaper.value} ${saturation}`
       ).then(() => {
         App.config({ style: "./style.css" });
       });
@@ -158,11 +166,13 @@ const VimPaletteMenuItem = (fileName) =>
     onActivate: () => {
 
       Utils.execAsync(
-        `wal -f ${AGS_PATH}/vim-palettes/${fileName}`
+        `wal -f ${CONFIGS_PATH}/palettes/${fileName}`
       )
         .then(() => {
           App.config({ style: "./style.css" });
-          return Utils.execAsync(`${AGS_PATH}/scripts/dunst-theme.sh`); // Chain the next command
+
+          Utils.exec("pywalfox update")
+          return Utils.execAsync(`${SCRIPTS_PATH}/dunst-theme.sh`); // Chain the next command
         })
         .then(() => {
           console.log("dunst-theme.sh executed successfully.");
@@ -217,26 +227,26 @@ const VimPaletteDropdown = (paths) =>
   });
 
 export const GetThemes = () => {
-  const paths = Utils.exec(`ls ${AGS_PATH}/themes/`).split("\n");
+  const paths = Utils.exec(`ls ${CONFIGS_PATH}/wallpaper-categories/`).split("\n");
   return paths.map((themePath) =>
-    JSON.parse(Utils.readFile(`${AGS_PATH}/themes/${themePath}`)).name
+    JSON.parse(Utils.readFile(`${CONFIGS_PATH}/wallpaper-categories/${themePath}`)).name
   );
 };
 
 const GetThemeWallpapers = (themeName) => {
   const theme = JSON.parse(
-    Utils.readFile(`${AGS_PATH}/themes/${themeName.toLowerCase()}.json`)
+    Utils.readFile(`${CONFIGS_PATH}/wallpaper-categories/${themeName.toLowerCase()}.json`)
   );
   console.log("Got theme: ", theme.wallpaper_names);
   return theme.wallpaper_names;
 };
 
 const GetWallpaperPaths = () => {
-  return Utils.exec(`ls ${AGS_PATH}/wallpapers`).split("\n").filter(Boolean);
+  return Utils.exec(`ls ${ASSETS_PATH}/wallpapers`).split("\n").filter(Boolean);
 }
 
 const GetVimPalettePaths = () => {
-  return Utils.exec(`ls ${AGS_PATH}/vim-palettes`).split('\n').filter(Boolean);
+  return Utils.exec(`ls ${CONFIGS_PATH}/palettes`).split('\n').filter(Boolean);
 }
 
 

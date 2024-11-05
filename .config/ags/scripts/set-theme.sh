@@ -16,6 +16,8 @@ fi
 # Set wallpaper with swww img
 swww img "$IMAGE" --transition-type left --transition-fps 30 --transition-step 2 --transition-duration 1
 
+background_image_path=$(cat ~/.cache/swww/eDP-1)
+sed -i "s|background-image:.*|background-image: url(\"${background_image_path}\");|" ~/.config/rofi/launchers/type-7/style-custom.rasi
 # Apply the colorscheme with wal
 # wal -i "$IMAGE" --saturate "$SATURATE"
 

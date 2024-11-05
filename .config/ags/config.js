@@ -1,5 +1,5 @@
-import { powerctl } from "./powerctl-window.js"
-import { ArchCtl } from "./archctl.js"
+import { powerctl } from "./widgets/powerctl-window.js"
+import { ArchCtl } from "./widgets/archctl.js"
 import { rgbToHex } from "./utils/rgbToHex.js"
 //import { NotificationPopups } from "./notifications.js"
 
@@ -284,10 +284,10 @@ function Bottom() {
 
 function Bar(monitor = 0) {
   return Widget.Window({
-    name: `bar-${monitor}`,
+    name: `bar`,
     class_name: "bar",
     monitor,
-    heightRequest: 1064,
+    heightRequest: 1062,
     anchor: ["left"],
     margins: [0, 0, 0, 4],
     exclusivity: "exclusive",
