@@ -18,10 +18,7 @@ let saturation = 0.0;
 const SaturationSlider = () =>
   Widget.Slider({
     className: "saturation-slider",
-    // @ts-ignore
-    vertical: false,
-    value: 0,
-    min: 0,
+    // @ts-ignore vertical: false, value: 0, min: 0,
     max: 50,
     on_change: ({ value }) => {
       saturation = roundToNearestN(value, 5) / 100;
