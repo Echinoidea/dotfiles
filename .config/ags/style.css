@@ -17,7 +17,7 @@ window.bar {
   padding-left: 8px;
   background-color: @background;
   opacity: 0.9;
-  border-radius: 16px;
+  border-radius: 0px;
   font-size: 14px;
 }
 
@@ -110,7 +110,7 @@ label {
   color: @color8;
   box-shadow: none;
   padding: 8px;
-  border-radius: 16px;
+  border-radius: 4px;
 }
 
 .saturation-slider {

@@ -41,7 +41,7 @@ export const ArchCtl = (time, date) => {
   return Widget.Window({
     name: WINDOW_NAME,
     className: "archctl-window",
-    margins: [8, 0, 0, 4],
+    margins: [0, 0, 0, 4],
     anchor: ["top", "left"],
     exclusivity: "normal",
     setup: (self) =>

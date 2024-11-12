@@ -284,7 +284,7 @@ export const themeWidget = () => {
                   homogeneous: true,
                   children: [
                     SettingsButton("", ShuffleTheme),
-                    ThemeDropdown(GetThemes()),
+                    //ThemeDropdown(GetThemes()),
                     WallpaperDropdown(GetWallpaperPaths())
                   ]
                 })
@@ -295,42 +295,44 @@ export const themeWidget = () => {
 
         Widget.Box({
           spacing: 2,
+
           children: [
 
             Widget.Box({
-              spacing: 6,
+              css: `margin-right: 16px;`,
+              spacing: 4,
               homogeneous: true,
               children: [
                 Widget.Label({
-                  label: "",
+                  label: "",
                   className: "color1"
                 }),
                 Widget.Label({
-                  label: "",
+                  label: "",
                   className: "color2"
                 }),
                 Widget.Label({
-                  label: "",
+                  label: "",
                   className: "color3"
                 }),
                 Widget.Label({
-                  label: "",
+                  label: "",
                   className: "color4"
                 }),
                 Widget.Label({
-                  label: "",
+                  label: "",
                   className: "color5"
                 }),
                 Widget.Label({
-                  label: "",
+                  label: "",
                   className: "color6"
                 }),
                 Widget.Label({
-                  label: "",
+                  label: "",
                   className: "color7"
                 }),
                 Widget.Label({
-                  label: "",
+                  label: "",
                   className: "color8"
                 }),
               ]

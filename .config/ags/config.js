@@ -287,16 +287,17 @@ function Bar(monitor = 0) {
     name: `bar`,
     class_name: "bar",
     monitor,
-    heightRequest: 1062,
+    layer: "bottom",
+    heightRequest: 1080,
     anchor: ["left"],
-    margins: [0, 0, 0, 4],
+    margins: [0, 0, 0, 0],
     exclusivity: "exclusive",
     child: Widget.CenterBox({
       vertical: true,
       start_widget: Top(),
       center_widget: Center(),
       end_widget: Bottom(),
-    }),
+    })
   })
 }
 
@@ -304,8 +305,8 @@ function Bar(monitor = 0) {
 App.config({
   style: "./style.css",
   windows: [
-    Bar(),
     ArchCtl(clockWidgetTime.value, clockWidgetDate.value),
+    Bar(),
     powerctl,
   ],
 })
