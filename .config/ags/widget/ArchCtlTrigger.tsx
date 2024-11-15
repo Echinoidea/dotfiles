@@ -1,9 +1,14 @@
-import { Gtk } from "astal/gtk3"
+import { App, Astal, Gtk, Gdk } from "astal/gtk3"
 
 export function ArchCtlTrigger(): JSX.Element {
   return <button
-    heightRequest={26}
-    css={`margin-bottom: -6px; margin-top: -6px;`} >
-    <label halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} label="󰣇" />
+    className="ArchCtlTrigger"
+    onClick={() => App.toggle_window("ArchCtlMenu")}>
+    <label css={`font-size: 42px; margin-top: -8px; margin-bottom: -10px;`}
+      halign={Gtk.Align.CENTER}
+      valign={Gtk.Align.CENTER}
+      label="󰣇" />
   </button >
 }
+
+

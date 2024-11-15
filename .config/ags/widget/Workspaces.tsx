@@ -1,10 +1,8 @@
 import Hyprland from "gi://AstalHyprland"
-import { bind, Variable } from "astal"
+import { bind, exec, Variable } from "astal"
 
 export function Workspaces(): JSX.Element {
   const hypr = Hyprland.get_default();
-  const workspaces = hypr.get_workspaces().sort().reverse();
-  const focusedWorkspace = hypr.get_focused_workspace();
 
   return <box
     className="Workspaces"

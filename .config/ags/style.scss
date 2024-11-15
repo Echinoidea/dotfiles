@@ -9,25 +9,30 @@ window.Bar {
   // font-weight: bold;
 
   >centerbox {
-    background: transparentize($color: $background, $amount: 0);
+    background: transparentize($color: $background, $amount: 0.1);
     border-radius: 8px;
     margin: 4px 0px 4px 4px;
   }
 
-  button {
-    background: transparent;
-    color: #{$color4};
-    border-radius: 8px;
-    margin: 2px;
-    font-size: 36px;
-    min-width: 26px;
-    border: none;
-    box-shadow: none;
-  }
+}
 
-  button:active {
-    color: #{$color7}
-  }
+button {
+  background: transparent;
+  color: #{$color4};
+  border-radius: 8px;
+  margin: 2px;
+  font-size: 36px;
+  min-width: 26px;
+  border: none;
+  box-shadow: none;
+}
+
+button:active {
+  color: #{$color7}
+}
+
+button:hover {
+  color: #{$color7}
 }
 
 .CircleIndicator {
@@ -45,4 +50,44 @@ window.Bar {
 .Workspaces .focused label {
   font-size: 16px;
   color: #{$cursor}
+}
+
+.ArchCtlMenu {}
+
+.ArchCtlBox {
+  background: transparentize($color: $background, $amount: 0.1);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.PowerButton-power {
+  color: #{$color9};
+}
+
+.PowerButton-suspend {
+  color: #{$color4};
+}
+
+.PowerButton-reboot {
+  color: #{$color4};
+}
+
+.PowerButton-logout {
+  color: #{$color4};
+}
+
+.PowerButton-power:hover {
+  color: #{$foreground};
+}
+
+.PowerButton-suspend:hover {
+  color: #{$foreground};
+}
+
+.PowerButton-reboot:hover {
+  color: #{$foreground};
+}
+
+.PowerButton-logout:hover {
+  color: #{$foreground};
 }

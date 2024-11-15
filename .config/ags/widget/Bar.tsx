@@ -8,6 +8,7 @@ import { ArchCtlTrigger } from "./ArchCtlTrigger"
 import { Workspaces } from "./Workspaces"
 import { SlideTest } from "./SlideInTest"
 import { Revealer } from "../../../../../usr/share/astal/gjs/gtk3/widget"
+import { VolumeIndicator } from "./Volume"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   let childReveal = Variable(false);
@@ -36,6 +37,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         <ArchCtlTrigger />
         <BatteryIndicator />
         <TempIndicator />
+        <VolumeIndicator />
       </box>
 
       <box
@@ -58,12 +60,3 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
   </window>
 }
 
-
-
-//<box
-//
-//>
-//  <Revealer revealChild={childReveal.get()} child={<SlideTest onClick={() => { console.log(childReveal); childReveal.set(!childReveal.get()) }} />}>
-//
-//  </Revealer>
-//</box>
