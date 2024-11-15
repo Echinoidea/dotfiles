@@ -2,6 +2,7 @@ import { App, Astal, Gtk, Gdk } from "astal/gtk3"
 import { ClockLarge } from "./ClockLarge";
 import { PowerButton } from "./PowerButtons";
 import { DateLabel } from "./DateLabel";
+import { ColorSchemeStack } from "./ColorSelector";
 
 export function ArchCtlMenu() {
   return <window
@@ -35,6 +36,8 @@ export function ArchCtlMenu() {
             <PowerButton type="logout" />
           </box>
         </box>
+
+        <ColorSchemeStack />
       </box>
 
     </box>

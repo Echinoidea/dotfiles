@@ -1,19 +1,16 @@
-@import "/home/gabriel/.cache/wal/colors.scss";
+@import "/home/gabriel/.cache/wal/colors-waybar.css";
 
 window.Bar {
-  background: transparent;
-  color: #{$foreground};
+  background: @background;
+  color: @foreground;
   font-family: MapleMono NF;
-  // font-weight: bold;
+}
 
-  >centerbox {
-    background: transparentize($color: $background, $amount: 0.1);
+  centerbox {
+    /*background: transparentize($color: $background, $amount: 0.1);*/
     border-radius: 8px;
     margin: 4px 0px 4px 4px;
   }
-
-}
-
 button {
   background: transparent;
   color: #{$color4};
