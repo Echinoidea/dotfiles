@@ -9,7 +9,7 @@ window.Bar {
   >centerbox {
     background: transparentize($color: $background, $amount: 0.1);
     border-radius: 8px;
-    margin: 4px 0px 4px 4px;
+    margin: 3px 0px 3px 3px;
   }
 
 }
@@ -92,4 +92,8 @@ button:hover {
 
 .PowerButton-logout:hover {
   color: #{$foreground};
+}
+
+.ColorSchemePreviewBox>eventbox:hover .ColorSchemeName {
+  color: #{$cursor};
 }

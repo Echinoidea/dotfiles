@@ -1,7 +1,8 @@
 import GLib from "gi://GLib";
-import { exec, execAsync, Variable } from "../../../../../usr/share/astal/gjs";
+import { exec, execAsync, Gio, Variable } from "../../../../../usr/share/astal/gjs";
 import { App, Astal, Gtk, Gdk } from "astal/gtk3"
 import { Scrollable } from "../../../../../usr/share/astal/gjs/gtk3/widget";
+import Json from "gi://Json";
 
 const XDG_CONFIG_PATH = GLib.getenv('XDG_CONFIG_HOME') || `${GLib.get_home_dir()}/.config`;
 const XDG_CACHE_PATH = GLib.getenv('XDG_CACHE_HOME') || `${GLib.get_home_dir()}/.cache`;
@@ -64,17 +65,58 @@ function ExecWalPreset(schemeFileName: string) {
     })
 }
 
+const GetColorsFromPreset = (schemeFileName: string) => {
+  const path = `${XDG_CONFIG_PATH}/ags/configs/palettes/${schemeFileName}`
+
+  const file = Gio.File.new_for_path(path);
+  const [success, content] = file.load_contents(null);
+
+  if (!success) {
+    throw new Error(`Failed to read file: ${path}`);
+  }
+
+  const jsonData = JSON.parse(imports.byteArray.toString(content));
+
+  const colors = jsonData.colors;
+  console.log(colors)
+  const selectedColors: { [key: string]: string } = {};
+
+  for (let i = 0; i <= 7; i++) {
+    const colorKey = `color${i}`;
+    if (colors[colorKey]) {
+      selectedColors[colorKey] = colors[colorKey];
+    }
+  }
+
+  return selectedColors;
+}
+
+function ColorPreview({ schemeFileName }: { schemeFileName: string }): JSX.Element {
+  const colors = GetColorsFromPreset(schemeFileName);
+  return <box halign={Gtk.Align.END} spacing={1}>
+    {
+      Array.from({ length: 8 }, (_, i) => i).map((number) => (
+        <label css={`font-size: 20px; color: ${colors[`color${number}`]}`} label={"󰋘"} />
+      ))}
+  </box>
+}
+
 export function ColorSchemeStack() {
+
+
   return <box vertical>
     <label label={"vim schemes"} />
     <Scrollable heightRequest={200} >
-      <box vertical >
+      <box vertical className="ColorSchemePreviewBox">
         {GetColorSchemes().map((path: string, index: number) => (
-          <button onClick={() => ExecWalPreset(path)}>
-            <label css={`font-size: 12px;`} halign={Gtk.Align.START} label={path.slice(0, path.length - 5)} />
-          </button>
+          <eventbox onClick={() => ExecWalPreset(path)}>
+            <box homogeneous>
+              <label className="ColorSchemeName" css={`font-size: 12px;`} halign={Gtk.Align.START} label={path.slice(0, path.length - 5)} />
+              <ColorPreview schemeFileName={path} />
+            </box>
+          </eventbox>
         ))}
       </box>
-    </Scrollable>
-  </box>
+    </Scrollable >
+  </box >
 }
