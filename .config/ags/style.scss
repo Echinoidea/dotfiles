@@ -1,0 +1,48 @@
+// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+@import "/home/gabriel/.cache/wal/colors.scss";
+
+
+window.Bar {
+  background: transparent;
+  color: #{$foreground};
+  font-family: MapleMono NF;
+  // font-weight: bold;
+
+  >centerbox {
+    background: transparentize($color: $background, $amount: 0);
+    border-radius: 8px;
+    margin: 4px 0px 4px 4px;
+  }
+
+  button {
+    background: transparent;
+    color: #{$color4};
+    border-radius: 8px;
+    margin: 2px;
+    font-size: 36px;
+    min-width: 26px;
+    border: none;
+    box-shadow: none;
+  }
+
+  button:active {
+    color: #{$color7}
+  }
+}
+
+.CircleIndicator {
+  min-width: 26px;
+  min-height: 26px;
+  font-size: 2px;
+}
+
+.Workspaces label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #{$foreground}
+}
+
+.Workspaces .focused label {
+  font-size: 16px;
+  color: #{$cursor}
+}
