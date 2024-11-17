@@ -39,16 +39,16 @@ button:hover {
 .Workspaces button {
   font-size: 16px;
   font-weight: bold;
-  color: #{$foreground}
+  color: #{$foreground};
 }
 
 .Workspaces .focused {
   font-size: 16px;
-  color: #{$cursor}
+  color: #{$cursor};
 }
 
 .Workspaces button:hover {
-  color: #{$cursor}
+  color: #{$cursor};
 }
 
 .ArchCtlMenu {}
@@ -90,3 +90,5 @@ button:hover {
 .PowerButton-logout:hover {
   color: #{$foreground};
 }
+
+

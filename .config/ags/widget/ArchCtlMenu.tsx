@@ -3,6 +3,7 @@ import { ClockLarge } from "./ClockLarge";
 import { PowerButton } from "./PowerButtons";
 import { DateLabel } from "./DateLabel";
 import { ColorSchemeStack } from "./ColorSelector";
+import { WallpaperSelector } from "./WallpaperSelector";
 
 export function ArchCtlMenu() {
   return <window
@@ -27,7 +28,7 @@ export function ArchCtlMenu() {
     <box vertical className={"ArchCtlBox"}>
       <box vertical halign={Gtk.Align.START}>
         <DateLabel />
-        <box spacing={16}>
+        <box spacing={16} className="ArchCtlBoxSection1">
           <ClockLarge />
           <box css={`margin-top: -6px;`} >
             <PowerButton type="power" />
@@ -38,8 +39,10 @@ export function ArchCtlMenu() {
         </box>
 
         <ColorSchemeStack />
+
       </box>
 
+      <WallpaperSelector />
     </box>
   </window>
 }

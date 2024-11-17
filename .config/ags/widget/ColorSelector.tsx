@@ -95,19 +95,16 @@ function ColorPreview({ schemeFileName }: { schemeFileName: string }): JSX.Eleme
   const colors = GetColorsFromPreset(schemeFileName);
   return <box halign={Gtk.Align.END} spacing={1}>
     {
-      Array.from({ length: 8 }, (_, i) => i).map((number) => (
+      Array.from({ length: 7 }, (_, i) => i + 1).map((number) => (
         <label css={`font-size: 20px; color: ${colors[`color${number}`]}`} label={"󰋘"} />
       ))}
   </box>
 }
 
 export function ColorSchemeStack() {
-
-
-  return <box vertical>
-    <label label={"vim schemes"} />
+  return <box vertical className="ColorSchemePreviewBox">
     <Scrollable heightRequest={200} >
-      <box vertical className="ColorSchemePreviewBox">
+      <box vertical className="ColorSchemePreviewBoxInner">
         {GetColorSchemes().map((path: string, index: number) => (
           <eventbox onClick={() => ExecWalPreset(path)}>
             <box homogeneous>

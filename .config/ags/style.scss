@@ -60,6 +60,7 @@ button:hover {
   background: transparentize($color: $background, $amount: 0.1);
   border-radius: 8px;
   padding: 4px;
+  min-width: 300px;
 }
 
 .PowerButton-power {
@@ -94,6 +95,21 @@ button:hover {
   color: #{$foreground};
 }
 
-.ColorSchemePreviewBox>eventbox:hover .ColorSchemeName {
+.ColorSchemePreviewBoxInner>eventbox:hover .ColorSchemeName {
   color: #{$cursor};
+  border-bottom: 1px solid #{$color7};
+  padding-bottom: 0px;
 }
+
+.ColorSchemePreviewBox {
+  min-width: 300px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #{$color7};
+}
+
+.ArchCtlBoxSection1 {
+  border-bottom: 1px solid #{$color7};
+  padding-bottom: 8px;
+}
+
+.WallpaperSelectorEventBox {}
