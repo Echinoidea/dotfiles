@@ -16,10 +16,9 @@ const SetSwww = (imageFileName: string) => {
 `);
 }
 
-
 export function WallpaperSelector() {
   return <box vertical className="WallpaperSelectorBoxOuter">
-    <Scrollable css={`min-height: 770px`}>
+    <Scrollable css={`min-height: 695px`}>
       <box vertical spacing={4} className="WallpaperSelectorBoxInner">
         {
           GetWallpaperPaths().map((path: string, index: number) => (

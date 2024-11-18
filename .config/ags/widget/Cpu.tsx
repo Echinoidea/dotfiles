@@ -4,29 +4,18 @@ import { CircularProgress } from "../../../../../usr/share/astal/gjs/gtk3/widget
 
 
 const cpu = Variable(0).poll(1000, "top -b -n 1", (stdout: string, prev: number) => {
-  if (!stdout) {
-    stdout = ""
-  }
-
   const cpuExtracted = stdout.split('\n')
     .find((line: string) => line.includes('Cpu(s)'))
     ?.split(/\s+/)[1]
-    .replace(',', '.') || ""
+    .replace(',', '.') || "";
 
-  return Number(cpuExtracted) / 100;
+  return parseFloat(cpuExtracted);
 })
 
 export function CpuIndicator(): JSX.Element {
-  return <CircularProgress
-    className="CircleIndicator"
-    value={cpu()}
-    startAt={0.75}
-    endAt={0.75}
-    rounded
-    inverted
-    child={<label css={'font-size: 20px;'} valign={Gtk.Align.CENTER} halign={Gtk.Align.CENTER} label={""} />
-    }
-  >
-  </CircularProgress >
+  return <box>
+    <label css={`font-size: 16px;`} label={"CPU"} />
+    <levelbar className="ResourcesLevelBar" value={cpu()} minValue={0} maxValue={100} widthRequest={270} />
+  </box>
 }
 

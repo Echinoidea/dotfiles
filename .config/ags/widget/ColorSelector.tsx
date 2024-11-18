@@ -41,7 +41,7 @@ function ApplyCssFromScss() {
 }
 
 function ExecWalImage() {
-  execAsync(`wal -i ${selectedWallpaper.get()} --saturate ${saturation}`)
+  execAsync(`wal -i ${getSelectedWallpaper()} --saturate ${saturation}`)
     .then(() => {
       ApplyCssFromScss();
       exec("pywalfox update");
@@ -78,7 +78,31 @@ const GetColorsFromPreset = (schemeFileName: string) => {
   const jsonData = JSON.parse(imports.byteArray.toString(content));
 
   const colors = jsonData.colors;
-  console.log(colors)
+  const selectedColors: { [key: string]: string } = {};
+
+  for (let i = 0; i <= 7; i++) {
+    const colorKey = `color${i}`;
+    if (colors[colorKey]) {
+      selectedColors[colorKey] = colors[colorKey];
+    }
+  }
+
+  return selectedColors;
+}
+
+const GetColorsFromWalCache = () => {
+  const path = `${XDG_CACHE_PATH}/wal/colors.json`;
+
+  const file = Gio.File.new_for_path(path);
+  const [success, content] = file.load_contents(null);
+
+  if (!success) {
+    throw new Error(`Failed to read file: ${path}`);
+  }
+
+  const jsonData = JSON.parse(imports.byteArray.toString(content));
+
+  const colors = jsonData.colors;
   const selectedColors: { [key: string]: string } = {};
 
   for (let i = 0; i <= 7; i++) {
@@ -92,7 +116,8 @@ const GetColorsFromPreset = (schemeFileName: string) => {
 }
 
 function ColorPreview({ schemeFileName }: { schemeFileName: string }): JSX.Element {
-  const colors = GetColorsFromPreset(schemeFileName);
+  const colors = GetColorsFromPreset(schemeFileName!);
+
   return <box halign={Gtk.Align.END} spacing={1}>
     {
       Array.from({ length: 7 }, (_, i) => i + 1).map((number) => (
@@ -105,10 +130,15 @@ export function ColorSchemeStack() {
   return <box vertical className="ColorSchemePreviewBox">
     <Scrollable heightRequest={200} >
       <box vertical className="ColorSchemePreviewBoxInner">
+        <eventbox onClick={() => ExecWalImage()}>
+          <box homogeneous>
+            <label className="ColorSchemeName" css={`font-size: 14px; margin-bottom: 4px;`} halign={Gtk.Align.START} label={"Run Pywal"} />
+          </box>
+        </eventbox>
         {GetColorSchemes().map((path: string, index: number) => (
           <eventbox onClick={() => ExecWalPreset(path)}>
             <box homogeneous>
-              <label className="ColorSchemeName" css={`font-size: 12px;`} halign={Gtk.Align.START} label={path.slice(0, path.length - 5)} />
+              <label className="ColorSchemeName" css={`font-size: 14px;`} halign={Gtk.Align.START} label={path.slice(0, path.length - 5)} />
               <ColorPreview schemeFileName={path} />
             </box>
           </eventbox>

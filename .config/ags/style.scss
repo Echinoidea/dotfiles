@@ -108,8 +108,29 @@ button:hover {
 }
 
 .ArchCtlBoxSection1 {
-  border-bottom: 1px solid #{$color7};
-  padding-bottom: 8px;
+  // border-bottom: 1px solid #{$color7};
+  padding-bottom: 0px;
 }
 
-.WallpaperSelectorEventBox {}
+.ResourcesLevelBar {}
+
+.ResourcesLevelBar>trough {
+  background: transparent;
+  border-right: 2px solid #{$foreground}
+}
+
+.ResourcesLevelBar>trough>block.filled {
+  background: #{$cursor};
+}
+
+.ResourcesLevelBar>trough>block.empty {
+  background: transparent;
+}
+
+.ArchCtlBoxResources {
+  padding-bottom: 6px;
+  padding-top: 6px;
+  border-bottom: 1px solid #{$color7};
+  border-top: 1px solid #{$color7};
+
+}

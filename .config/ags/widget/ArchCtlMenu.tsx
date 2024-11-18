@@ -4,6 +4,8 @@ import { PowerButton } from "./PowerButtons";
 import { DateLabel } from "./DateLabel";
 import { ColorSchemeStack } from "./ColorSelector";
 import { WallpaperSelector } from "./WallpaperSelector";
+import { CpuIndicator } from "./Cpu";
+import { RamIndicator } from "./MemoryIndicator";
 
 export function ArchCtlMenu() {
   return <window
@@ -25,23 +27,26 @@ export function ArchCtlMenu() {
     marginLeft={4}
     css={"border-radius: 8px;"}
   >
-    <box vertical className={"ArchCtlBox"}>
+    <box vertical spacing={8} className={"ArchCtlBox"} >
       <box vertical halign={Gtk.Align.START}>
         <DateLabel />
-        <box spacing={16} className="ArchCtlBoxSection1">
+        <box spacing={32} className="ArchCtlBoxSection1">
           <ClockLarge />
-          <box css={`margin-top: -6px;`} >
+          <box halign={Gtk.Align.END} css={`margin-top: -6px;`} >
             <PowerButton type="power" />
             <PowerButton type="suspend" />
             <PowerButton type="reboot" />
             <PowerButton type="logout" />
           </box>
         </box>
-
-        <ColorSchemeStack />
-
       </box>
 
+      <box className={"ArchCtlBoxResources"} vertical spacing={4}>
+        <CpuIndicator />
+        <RamIndicator />
+      </box>
+
+      <ColorSchemeStack />
       <WallpaperSelector />
     </box>
   </window>
