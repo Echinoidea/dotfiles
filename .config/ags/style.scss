@@ -8,7 +8,7 @@ window.Bar {
 
   >centerbox {
     background: transparentize($color: $background, $amount: 0.1);
-    border-radius: 8px;
+    border-radius: 6px;
     margin: 3px 0px 3px 3px;
   }
 
@@ -54,9 +54,11 @@ button:hover {
   color: #{$cursor}
 }
 
-.ArchCtlMenu {}
+.ArchCtlMenu,
+.OrgMenu {}
 
-.ArchCtlBox {
+.ArchCtlBox,
+.OrgMenuBox {
   background: transparentize($color: $background, $amount: 0.1);
   border-radius: 8px;
   padding: 4px;
@@ -128,6 +130,7 @@ button:hover {
 }
 
 .ArchCtlBoxResources {
+  margin-top: -4px;
   padding-bottom: 6px;
   padding-top: 6px;
   border-bottom: 1px solid #{$color7};

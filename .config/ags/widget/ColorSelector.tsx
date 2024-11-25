@@ -41,7 +41,7 @@ function ApplyCssFromScss() {
 }
 
 function ExecWalImage() {
-  execAsync(`wal -i ${getSelectedWallpaper()} --saturate ${saturation}`)
+  execAsync(`wal -i ${getSelectedWallpaper()} `)
     .then(() => {
       ApplyCssFromScss();
       exec("pywalfox update");

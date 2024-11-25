@@ -3,6 +3,7 @@ import style from "./style.scss"
 import Bar from "./widget/Bar"
 import { ArchCtlMenu } from "./widget/ArchCtlMenu"
 import { exec } from "../../../../usr/share/astal/gjs"
+import { OrgMenu } from "./widget/OrgMenu"
 
 const scss = "./style.scss";
 const css = "/tmp/style.css";
@@ -13,5 +14,6 @@ App.start({
   main() {
     App.get_monitors().map(Bar)
     ArchCtlMenu()
+    OrgMenu()
   },
 })

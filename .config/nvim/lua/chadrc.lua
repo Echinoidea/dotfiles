@@ -1,20 +1,20 @@
--- This file needs to have same structure as nvconfig.lua 
+-- This file needs to have same structure as nvconfig.lua
 -- https://github.com/NvChad/ui/blob/v3.0/lua/nvconfig.lua
--- Please read that file to know all available options :( 
+-- Please read that file to know all available options :(
 
 ---@type ChadrcConfig
 local M = {}
 
 M.base46 = {
-	theme = "chadtain",
+  theme = "summer",
 
-	hl_override = {
+  hl_override = {
     Normal = {
-      bg = 'none'
+      bg = "none",
     },
-		Comment = { italic = true },
-		["@comment"] = { italic = true },
-	},
+    Comment = { italic = true },
+    ["@comment"] = { italic = true },
+  },
 }
 
 return M

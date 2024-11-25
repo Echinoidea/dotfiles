@@ -7,7 +7,7 @@ return {
       ft = "",
       lazy = "󰂠 ",
       loaded = "",
-      not_loaded = "",
+      not_loaded = "",
     },
   },
 
@@ -33,7 +33,6 @@ return {
         "vimballPlugin",
         "zip",
         "zipPlugin",
-        "tutor",
         "rplugin",
         "syntax",
         "synmenu",

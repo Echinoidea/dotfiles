@@ -8,6 +8,7 @@ export function Clock(): JSX.Element {
     className="Clock"
     halign={Gtk.Align.CENTER}
     valign={Gtk.Align.CENTER}
+    onClick={() => App.toggle_window("OrgMenu")}
   >
     <label
       css={`font-size: 16px;`}
