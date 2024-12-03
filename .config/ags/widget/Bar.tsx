@@ -1,14 +1,13 @@
 import { App, Astal, Gtk, Gdk } from "astal/gtk3"
-import { bind, Variable } from "astal"
+import { bind, Gio, Variable } from "astal"
 import { Clock } from "./Clock"
 import { BatteryIndicator } from "./Battery"
 import { TempIndicator } from "./Temp"
 import { CpuIndicator } from "./Cpu"
 import { ArchCtlTrigger } from "./ArchCtlTrigger"
 import { Workspaces } from "./Workspaces"
-import { SlideTest } from "./SlideInTest"
-import { Revealer } from "../../../../../usr/share/astal/gjs/gtk3/widget"
 import { VolumeIndicator } from "./Volume"
+import GLib from "gi://GLib?version=2.0"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   let childReveal = Variable(false);
@@ -16,6 +15,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
   return <window
     className="Bar"
     gdkmonitor={gdkmonitor}
+    keymode={Astal.Keymode.ON_DEMAND}
     exclusivity={Astal.Exclusivity.EXCLUSIVE}
     anchor={Astal.WindowAnchor.LEFT
       | Astal.WindowAnchor.TOP
@@ -53,6 +53,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         valign={Gtk.Align.END}
         spacing={4}
       >
+
         <Clock />
       </box>
     </centerbox>

@@ -58,7 +58,8 @@ button:hover {
 .OrgMenu {}
 
 .ArchCtlBox,
-.OrgMenuBox {
+.OrgMenuBox,
+.KeyVisualizerBox {
   background: transparentize($color: $background, $amount: 0.1);
   border-radius: 8px;
   padding: 4px;

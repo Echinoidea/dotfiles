@@ -4,6 +4,7 @@ import Bar from "./widget/Bar"
 import { ArchCtlMenu } from "./widget/ArchCtlMenu"
 import { exec } from "../../../../usr/share/astal/gjs"
 import { OrgMenu } from "./widget/OrgMenu"
+import { KeyVisualizer } from "./widget/KeyVisualizer"
 
 const scss = "./style.scss";
 const css = "/tmp/style.css";
@@ -15,5 +16,6 @@ App.start({
     App.get_monitors().map(Bar)
     ArchCtlMenu()
     OrgMenu()
+    //KeyVisualizer()
   },
 })

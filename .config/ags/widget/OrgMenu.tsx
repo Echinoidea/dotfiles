@@ -6,6 +6,7 @@ import { ColorSchemeStack } from "./ColorSelector";
 import { WallpaperSelector } from "./WallpaperSelector";
 import { CpuIndicator } from "./Cpu";
 import { RamIndicator } from "./MemoryIndicator";
+import { KeyboardVizTrigger } from "./TriggerKeyViz";
 
 export function OrgMenu() {
   return <window
@@ -28,7 +29,7 @@ export function OrgMenu() {
     css={"border-radius: 6px;"}
   >
     <box vertical spacing={8} className={"OrgMenuBox"} >
-
+      <KeyboardVizTrigger />
     </box>
   </window>
 }
