@@ -3,7 +3,8 @@
 window.Bar {
   background: transparent;
   color: #{$foreground};
-  font-family: MapleMono NF;
+  font-family: DepartureMono Nerd Font Mono;
+  // font-family: MapleMono NF;
   // font-weight: bold;
 
   >centerbox {
@@ -52,6 +53,15 @@ button:hover {
 
 .Workspaces button:hover {
   color: #{$cursor}
+}
+
+.Clock {
+  color: #{$cursor};
+  font-size: 16px;
+}
+
+.Clock:hover {
+  color: #{$foreground};
 }
 
 .ArchCtlMenu,

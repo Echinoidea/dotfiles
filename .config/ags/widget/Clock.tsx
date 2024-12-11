@@ -11,6 +11,7 @@ export function Clock(): JSX.Element {
     onClick={() => App.toggle_window("OrgMenu")}
   >
     <label
+      className=""
       css={`font-size: 16px;`}
       label={time()} />
   </button>

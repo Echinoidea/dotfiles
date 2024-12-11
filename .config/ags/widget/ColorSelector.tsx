@@ -58,11 +58,19 @@ function ExecWalPreset(schemeFileName: string) {
     .then(() => {
       ApplyCssFromScss();
       exec("pywalfox update");
+
+      return execAsync(`${XDG_CONFIG_PATH}/ags/scripts/dunst-theme.sh`).then(() => {
+        console.log("Updated dunst")
+      }).catch((error) => {
+        console.error(error);
+      });
     })
     .catch((error) => {
       console.log("Error during pywal or pywalfox update");
       console.log(error);
     })
+
+
 }
 
 const GetColorsFromPreset = (schemeFileName: string) => {
