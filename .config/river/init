@@ -1,14 +1,8 @@
 #!/bin/sh
 
-# This is the example configuration file for river.
-#
-# If you wish to edit this, you will probably want to copy it to
-# $XDG_CONFIG_HOME/river/init or $HOME/.config/river/init first.
-#
-# See the river(1), riverctl(1), and rivertile(1) man pages for complete
-# documentation.
-
-# Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
+# ┏━┓╻╻ ╻┏━╸┏━┓
+# ┣┳┛┃┃┏┛┣╸ ┣┳┛
+# ╹┗╸╹┗┛ ┗━╸╹┗╸
 
 # STARTUP EXEC
 riverctl spawn swww-daemon
@@ -17,11 +11,22 @@ riverctl spawn "dunst"
 
 riverctl map normal Super+Control R spawn "~/.config/river/init"
 
+# ┏━┓┏━┓┏━┓┏━╸┏━┓┏━┓┏┳┓   ┏┓ ╻┏┓╻╺┳┓┏━┓
+# ┣━┛┣┳┛┃ ┃┃╺┓┣┳┛┣━┫┃┃┃   ┣┻┓┃┃┗┫ ┃┃┗━┓
+# ╹  ╹┗╸┗━┛┗━┛╹┗╸╹ ╹╹ ╹   ┗━┛╹╹ ╹╺┻┛┗━┛
+
 # Super+Shift+Return to start an instance of foot (https://codeberg.org/dnkl/foot)
 riverctl map normal Super Q spawn foot
 riverctl map normal Super space spawn "rofi -show drun -theme ~/.config/rofi/config.rasi"
 riverctl map normal Super Y spawn "foot yazi"
 riverctl map normal Super O spawn "foot kew"
+
+riverctl map normal Super Print spawn "grim \"/home/gabriel/Pictures/screenshots/$(date).png\" && notify-send -t 2000 \"Took screenshot\""
+riverctl map normal Super Print spawn "foot grim -o eDP-1 /home/gabriel/Pictures/screenshots/$(date +'%s_grim.png') && ~/.config/river/init"
+
+# ╻ ╻╻┏┓╻╺┳┓┏━┓╻ ╻┏━┓
+# ┃╻┃┃┃┗┫ ┃┃┃ ┃┃╻┃┗━┓
+# ┗┻┛╹╹ ╹╺┻┛┗━┛┗┻┛┗━┛
 
 # Super+Q to close the focused view
 riverctl map normal Super C close
@@ -32,6 +37,8 @@ riverctl map normal Super+Shift delete exit
 # Super+J and Super+K to focus the next/previous view in the layout stack
 riverctl map normal Super J focus-view next
 riverctl map normal Super K focus-view previous
+
+riverctl map normal Super Tab focus-previous-tags
 
 # Super+Shift+J and Super+Shift+K to swap the focused view with the next/previous
 # view in the layout stack
@@ -84,6 +91,32 @@ riverctl map-pointer normal Super BTN_RIGHT resize-view
 # Super + Middle Mouse Button to toggle float
 riverctl map-pointer normal Super BTN_MIDDLE toggle-float
 
+# Super+Space to toggle float
+riverctl map normal Super V toggle-float
+
+# Super+F to toggle fullscreen
+riverctl map normal Super F toggle-fullscreen
+
+# Super+{Up,Right,Down,Left} to change layout orientation
+riverctl map normal Super Up    send-layout-cmd rivertile "main-location top"
+riverctl map normal Super Right send-layout-cmd rivertile "main-location right"
+riverctl map normal Super Down  send-layout-cmd rivertile "main-location bottom"
+riverctl map normal Super Left  send-layout-cmd rivertile "main-location left"
+
+# Declare a passthrough mode. This mode has only a single mapping to return to
+# normal mode. This makes it useful for testing a nested wayland compositor
+riverctl declare-mode passthrough
+
+# Super+F11 to enter passthrough mode
+riverctl map normal Super F11 enter-mode passthrough
+
+# Super+F11 to return to normal mode
+riverctl map passthrough Super F11 enter-mode normal
+
+# ╺┳╸┏━┓┏━╸┏━┓
+#  ┃ ┣━┫┃╺┓┗━┓
+#  ╹ ╹ ╹┗━┛┗━┛
+
 for i in $(seq 1 9)
 do
     tags=$((1 << ($i - 1)))
@@ -108,34 +141,15 @@ all_tags=$(((1 << 32) - 1))
 riverctl map normal Super 0 set-focused-tags $all_tags
 riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
-# Super+Space to toggle float
-riverctl map normal Super V toggle-float
 
-# Super+F to toggle fullscreen
-riverctl map normal Super F toggle-fullscreen
-
-# Super+{Up,Right,Down,Left} to change layout orientation
-riverctl map normal Super Up    send-layout-cmd rivertile "main-location top"
-riverctl map normal Super Right send-layout-cmd rivertile "main-location right"
-riverctl map normal Super Down  send-layout-cmd rivertile "main-location bottom"
-riverctl map normal Super Left  send-layout-cmd rivertile "main-location left"
-
-# Declare a passthrough mode. This mode has only a single mapping to return to
-# normal mode. This makes it useful for testing a nested wayland compositor
-riverctl declare-mode passthrough
-
-# Super+F11 to enter passthrough mode
-riverctl map normal Super F11 enter-mode passthrough
-
-# Super+F11 to return to normal mode
-riverctl map passthrough Super F11 enter-mode normal
+# ┏━╸╻ ╻┏┓╻┏━╸╺┳╸╻┏━┓┏┓╻   ╻┏ ┏━╸╻ ╻┏━┓
+# ┣╸ ┃ ┃┃┗┫┃   ┃ ┃┃ ┃┃┗┫   ┣┻┓┣╸ ┗┳┛┗━┓
+# ╹  ┗━┛╹ ╹┗━╸ ╹ ╹┗━┛╹ ╹   ╹ ╹┗━╸ ╹ ┗━┛
 
 # Various media key mapping examples for both normal and locked mode which do
 # not have a modifier
 for mode in normal locked
 do
-    # Eject the optical drive (well if you still have one that is)
-    riverctl map $mode None XF86Eject spawn 'eject -T'
 
     # Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
     riverctl map $mode None XF86AudioRaiseVolume  spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'
@@ -153,28 +167,44 @@ do
     riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
 done
 
+# ╺┳┓┏━╸┏━╸┏━┓┏━┓┏━┓╺┳╸╻┏━┓┏┓╻
+#  ┃┃┣╸ ┃  ┃ ┃┣┳┛┣━┫ ┃ ┃┃ ┃┃┗┫
+# ╺┻┛┗━╸┗━╸┗━┛╹┗╸╹ ╹ ╹ ╹┗━┛╹ ╹
+
 # Set background and border color
 riverctl background-color 0x000000
 riverctl border-width 2
-riverctl border-color-focused 0xcdc0adaa
+riverctl border-color-focused 0x00bb00aa
 riverctl border-color-unfocused 0xd5d5d555
+
+
+# ╻┏┓╻┏━┓╻ ╻╺┳╸
+# ┃┃┗┫┣━┛┃ ┃ ┃ 
+# ╹╹ ╹╹  ┗━┛ ╹ 
 
 # Set keyboard repeat rate
 riverctl set-repeat 50 300
 
 
-riverctl focus-follows-cursor normal
+riverctl focus-follows-cursor normal 
 riverctl input pointer-5349-25870-ZNT0001:00_14E5:650E_Touchpad tap enabled
 
+
+# ┏━┓╻ ╻╻  ┏━╸┏━┓
+# ┣┳┛┃ ┃┃  ┣╸ ┗━┓
+# ╹┗╸┗━┛┗━╸┗━╸┗━┛
 
 # Make all views with an app-id that starts with "float" and title "foo" start floating.
 # riverctl rule-add -app-id 'float*' -title 'foo' float
 
-# Make all views with app-id "bar" and any title use client-side decorations
 riverctl rule-add -app-id "ags" csd
 riverctl rule-add -app-id "gjs" csd
 riverctl rule-add -app-id "firefox" ssd
-# riverctl rule-add -app-id "foot" csd
+riverctl rule-add -app-id "kitty" ssd
+
+# ╺┳╸╻╻  ╻┏┓╻┏━╸
+#  ┃ ┃┃  ┃┃┗┫┃╺┓
+#  ╹ ╹┗━╸╹╹ ╹┗━┛
 
 # Set the default layout generator to be rivertile and start it.
 # River will send the process group of the init executable SIGTERM on exit.

@@ -3,14 +3,12 @@ import { bind, Gio, Variable } from "astal"
 import { Clock } from "./Clock"
 import { BatteryIndicator } from "./Battery"
 import { TempIndicator } from "./Temp"
-import { CpuIndicator } from "./Cpu"
 import { ArchCtlTrigger } from "./ArchCtlTrigger"
 import { Workspaces } from "./Workspaces"
 import { VolumeIndicator } from "./Volume"
-import GLib from "gi://GLib?version=2.0"
+import { RiverTags } from "./RiverTags"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
-  let childReveal = Variable(false);
 
   return <window
     className="Bar"
@@ -45,7 +43,8 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         valign={Gtk.Align.CENTER}
         spacing={4}
       >
-        <Workspaces />
+        {/*<Workspaces />*/}
+        <RiverTags />
       </box>
 
       <box

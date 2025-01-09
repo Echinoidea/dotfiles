@@ -14,7 +14,8 @@ exec(`sass ${scss} ${css}`);
 App.start({
   css: css,
   main() {
-    Bar(App.get_monitors()[0])
+    App.get_monitors().map(Bar)
+    //Bar(App.get_monitors()[0])
     ArchCtlMenu()
     //OrgMenu()
     //App.get_monitors().map(NotificationPopups)

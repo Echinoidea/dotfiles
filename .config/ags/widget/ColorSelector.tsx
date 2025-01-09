@@ -40,35 +40,91 @@ function ApplyCssFromScss() {
   App.apply_css(css);
 }
 
-function ExecWalImage() {
-  execAsync(`wal -i ${getSelectedWallpaper()} `)
-    .then(() => {
-      ApplyCssFromScss();
-      exec("pywalfox update");
-    })
-    .catch((error) => {
-      console.log("Error during pywal or pywalfox update");
-      console.log(error);
-    })
+async function ExecWalImage(light: boolean) {
+  const configPath = `${XDG_CONFIG_PATH}/ags`;
+
+  try {
+    // Update pywal colors
+    await execAsync(`wal -i ${getSelectedWallpaper()} ${light ? '-l' : ''}`)
+    ApplyCssFromScss();
+    // Uncomment if you want to update pywalfox
+    // await execAsync("pywalfox update");
+
+    console.log("Pywal updated");
+
+    // Update dunst theme
+    await execAsync(`${configPath}/scripts/dunst-theme.sh`);
+    console.log("Updated dunst");
+
+    // Update hypr border and foot theme
+    await execAsync(`${configPath}/scripts/hypr-border.sh`);
+    console.log("Updated hypr border color");
+
+    await execAsync(`${configPath}/scripts/foot-theme.sh`);
+
+    console.log("Updated foot theme");
+  } catch (error) {
+    console.error("An error occurred during the theme update process:", error);
+  }
 }
 
-function ExecWalPreset(schemeFileName: string) {
+async function ExecWalPreset(schemeFileName: string) {
+  const configPath = `${XDG_CONFIG_PATH}/ags`;
   console.log(`${XDG_CONFIG_PATH}/ags/configs/palettes/${schemeFileName}`)
-  execAsync(`wal -f ${XDG_CONFIG_PATH}/ags/configs/palettes/${schemeFileName}`)
-    .then(() => {
-      ApplyCssFromScss();
-      exec("pywalfox update");
 
-      return execAsync(`${XDG_CONFIG_PATH}/ags/scripts/dunst-theme.sh`).then(() => {
-        console.log("Updated dunst")
-      }).catch((error) => {
-        console.error(error);
-      });
-    })
-    .catch((error) => {
-      console.log("Error during pywal or pywalfox update");
-      console.log(error);
-    })
+  try {
+    // Update pywal colors
+    await execAsync(`wal --theme ${configPath}/configs/palettes/${schemeFileName.split('.')[0]}`);
+    ApplyCssFromScss();
+    // Uncomment if you want to update pywalfox
+    // await execAsync("pywalfox update");
+
+    console.log("Pywal updated");
+
+    // Update dunst theme
+    await execAsync(`${configPath}/scripts/dunst-theme.sh`);
+    console.log("Updated dunst");
+
+    // Update hypr border and foot theme
+    await execAsync(`${configPath}/scripts/hypr-border.sh`);
+    console.log("Updated hypr border color");
+
+    await execAsync(`${configPath}/scripts/foot-theme.sh`);
+    console.log("Updated foot theme");
+  } catch (error) {
+    console.error("An error occurred during the theme update process:", error);
+  }
+  //execAsync(`wal -f ${XDG_CONFIG_PATH}/ags/configs/palettes/${schemeFileName}`)
+  //  .then(async () => {
+  //    ApplyCssFromScss();
+  //    //exec("pywalfox update");
+  //
+  //    try {
+  //      await execAsync(`${XDG_CONFIG_PATH}/ags/scripts/dunst-theme.sh`);
+  //      console.log("Updated dunst");
+  //      try {
+  //        await execAsync(`${XDG_CONFIG_PATH}/ags/scripts/hypr-border.sh`).then(() => { execAsync(`${XDG_CONFIG_PATH}/ags/scripts/foot-theme.sh`) }
+  //        );
+  //        console.log("Updated hypr border color");
+  //
+  //        try {
+  //
+  //        } catch (error) {
+  //          console.log(error);
+  //        }
+  //      } catch (error) {
+  //        console.log(error);
+  //      }
+  //    } catch (error_1) {
+  //      console.error(error_1);
+  //    }
+  //
+  //
+  //  })
+  //  .catch((error) => {
+  //    console.log("Error during pywal or pywalfox update");
+  //    console.log(error);
+  //  })
 
 
 }
@@ -138,16 +194,27 @@ export function ColorSchemeStack() {
   return <box vertical className="ColorSchemePreviewBox">
     <Scrollable heightRequest={200} >
       <box vertical className="ColorSchemePreviewBoxInner">
-        <eventbox onClick={() => ExecWalImage()}>
+        <eventbox onClick={() => ExecWalImage(false)}>
           <box homogeneous>
-            <label className="ColorSchemeName" css={`font-size: 14px; margin-bottom: 4px;`} halign={Gtk.Align.START} label={"Run Pywal"} />
+            <label className="ColorSchemeName" css={`font-size: 14px; margin-bottom: 4px;`} halign={Gtk.Align.START} label={"wal"} />
+          </box>
+        </eventbox>
+        <eventbox onClick={() => ExecWalImage(true)}>
+          <box homogeneous>
+            <label className="ColorSchemeName" css={`font-size: 14px; margin-bottom: 4px;`} halign={Gtk.Align.START} label={"wal -l"} />
           </box>
         </eventbox>
         {GetColorSchemes().map((path: string, index: number) => (
           <eventbox onClick={() => ExecWalPreset(path)}>
             <box homogeneous>
-              <label className="ColorSchemeName" css={`font-size: 14px;`} halign={Gtk.Align.START} label={path.slice(0, path.length - 5)} />
-              <ColorPreview schemeFileName={path} />
+              <box>
+                <label className="ColorSchemeName" css={`font-size: 14px;`} halign={Gtk.Align.START} label={path.slice(0, path.length - 5)} />
+              </box>
+
+              <box>
+                <ColorPreview schemeFileName={path} />
+              </box>
+
             </box>
           </eventbox>
         ))}

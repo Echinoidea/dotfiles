@@ -1,16 +1,22 @@
 @import "/home/gabriel/.cache/wal/colors.scss";
 
+* {
+
+  text-shadow: none;
+}
+
 window.Bar {
   background: transparent;
   color: #{$foreground};
-  font-family: DepartureMono Nerd Font Mono;
-  // font-family: MapleMono NF;
+  // font-family: DepartureMono Nerd Font Mono;
+  font-family: DepartureMono Nerd Font Mono, monospace; // font-family: MapleMono NF;
   // font-weight: bold;
 
   >centerbox {
-    background: transparentize($color: $background, $amount: 0.1);
-    border-radius: 6px;
-    margin: 3px 0px 3px 3px;
+    background: transparentize($color: $background, $amount: 0.00);
+    border-radius: 0px;
+    border-color: transparent;
+    margin: 0px 0px 0px 0px;
   }
 
 }
@@ -112,6 +118,8 @@ button:hover {
   color: #{$cursor};
   border-bottom: 1px solid #{$color7};
   padding-bottom: 0px;
+
+  border-color: transparent;
 }
 
 .ColorSchemePreviewBox {
@@ -129,7 +137,8 @@ button:hover {
 
 .ResourcesLevelBar>trough {
   background: transparent;
-  border-right: 2px solid #{$foreground}
+  border-right: 2px solid #{$foreground};
+  border-color: transparent;
 }
 
 .ResourcesLevelBar>trough>block.filled {
