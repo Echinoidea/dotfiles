@@ -1,0 +1,154 @@
+## Copyright (C) 2020-2024 Aditya Shakya <adi1090x@gmail.com>
+
+##---------- Keybindings for berry ----------##
+
+# Terminal (alacritty)
+super + q
+	bash ~/.config/berry/scripts/berry_term
+
+# Terminal (floating)
+super + shift + q
+	bash ~/.config/berry/scripts/berry_term --float
+
+# # Terminal (kitty)
+# ctrl + alt + t
+# 	bash ~/.config/berry/scripts/berry_kitty
+
+##---------- Rofi Launcher & Menus ----------##
+
+# Rofi App Launcher
+super + space
+  rofi -show drun
+
+
+##---------- Applications ----------##
+
+
+# Terminal Apps
+ctrl + alt + {y, o}
+	alacritty --config-file ~/.config/berry/alacritty/alacritty.toml -e {yazi, kew}
+
+# # Lockscreen
+# ctrl + alt + l
+#     betterlockscreen --lock
+
+# Music Player
+# ctrl + alt + m
+#     ~/.config/berry/scripts/berry_music
+
+# Color Picker
+super + p
+    ~/.config/berry/scripts/berry_colorpicker
+
+##---------- System Keys ----------##
+
+# Take a screenshot
+Print
+	~/.config/berry/scripts/berry_screenshot --now
+	
+# Take screenshot in 5 second
+alt + Print	
+	~/.config/berry/scripts/berry_screenshot --in5
+
+# Take screenshot in 10 second
+shift + Print	
+	~/.config/berry/scripts/berry_screenshot --in10
+
+# Take screenshot of active window
+ctrl + Print
+	~/.config/berry/scripts/berry_screenshot --win
+
+# Take screenshot of area
+super + Print
+	~/.config/berry/scripts/berry_screenshot --area
+
+# Brighness control
+XF86MonBrightness{Up,Down}
+	~/.config/berry/scripts/berry_brightness{ --inc, --dec}
+	
+# Volume control
+XF86Audio{RaiseVolume,LowerVolume}
+	~/.config/berry/scripts/berry_volume{ --inc, --dec}
+
+XF86AudioMute
+	~/.config/berry/scripts/berry_volume --toggle
+	
+XF86AudioMicMute
+	~/.config/berry/scripts/berry_volume --toggle-mic
+
+# Music control
+XF86Audio{Next,Prev,Play,Stop}
+	mpc {next,prev,toggle,stop}
+
+# Reload sxhkd configuration file
+super + Escape
+	pkill -USR1 -x sxhkd
+
+##---------- Berry Hotkeys --------##
+
+super + shift +  {Left, Down, Up, Right}
+    berryc window_resize {-50 0, 0 50, 0 -50, 50 0}
+
+super + ctrl + {Left, Down, Up, Right}
+    berryc window_move {-50 0, 0 50, 0 -50, 50 0}
+
+super + Left
+    berryc snap_left
+
+super +  Right
+    berryc snap_right
+
+super +  Up
+    berryc window_monocle
+
+super +  Down
+    berryc window_resize_absolute 1000 650 && berryc window_center
+
+super + {1-9}
+    berryc switch_workspace {0-9}
+
+super + shift + {1-9}
+    berryc send_to_workspace {0-9}
+
+super + f
+    berryc fullscreen
+
+super + t
+    berryc toggle_decorations
+
+super + Tab
+    berryc cycle_focus
+
+alt + Tab
+    berryc cycle_focus
+
+super + h 
+  berryc cardinal_focus 2
+
+super + j 
+  berryc cardinal_focus 3
+
+super + k 
+  berryc cardinal_focus 1
+
+super + l 
+  berryc cardinal_focus 0
+
+super + v
+    berryc window_center
+
+super + c
+    berryc window_close
+
+super + shift + Delete
+    berryc quit
+
+super + alt + l
+  berryc window_move 1920 0
+
+super + alt + h
+  berryc window_move -1920 0
+
+# Mouse Buttons
+~button1
+    berryc pointer_focus
