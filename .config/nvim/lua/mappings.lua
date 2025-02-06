@@ -7,6 +7,8 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 map("i", "jj", "<ESC>")
+map("i", "JK", "<ESC>")
+map("i", "JJ", "<ESC>")
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
 -- DISABLE ARROW KEYS
@@ -22,7 +24,10 @@ map("i", "<Left>", "<Nop>")
 
 map("n", "d", '"_d')
 map("v", "d", '"_d')
-map("v", "D", '"_D')
+
+map("n", "D", '"_D')
+-- map("n", "D", '"_D')
+-- map("v", "D", '"_D')
 
 -- DISABLE F1
 map("i", "<F1>", "<Esc>")

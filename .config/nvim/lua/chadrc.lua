@@ -6,12 +6,13 @@
 local M = {}
 
 M.base46 = {
-  theme = "summer",
+  theme = "nightowl",
+  -- theme = None
 
   hl_override = {
-    Normal = {
-      bg = "none",
-    },
+    -- Normal = {
+    --   bg = "none",
+    -- },
     Comment = { italic = true },
     ["@comment"] = { italic = true },
   },
