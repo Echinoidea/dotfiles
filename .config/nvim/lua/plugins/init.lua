@@ -88,11 +88,11 @@ return {
   },
 
   {
-    "uZer/pywal16.nvim",
-    -- for local dev replace with:
-    -- dir = '~/your/path/pywal16.nvim',
+    "rjshkhr/shadow.nvim",
+    priority = 1000,
     config = function()
-      vim.cmd.colorscheme "pywal16"
+      vim.opt.termguicolors = true
+      vim.cmd.colorscheme "shadow"
     end,
   },
 
