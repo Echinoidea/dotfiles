@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(typescript
+   '(markdown
+     typescript
      rust
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -40,7 +41,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     ;; better-defaults
+     better-defaults
      emacs-lisp
      git
      helm
@@ -48,6 +49,7 @@ This function should only modify configuration layer settings."
      ;; markdown
      multiple-cursors
      org
+     pass
      (shell :variables
             shell-default-shell 'vterm
             shell-default-height 30
@@ -57,6 +59,10 @@ This function should only modify configuration layer settings."
      ;; version-control
      treemacs
      themes-megapack
+     pdf
+     latex
+     (llm-client :variables
+                 llm-client-enable-gptel t)
      )
 
 
@@ -68,7 +74,9 @@ This function should only modify configuration layer settings."
    ;; ` To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      org-journal
+                                      )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -142,7 +150,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
    ;; (default t)
-   dotspacemacs-verify-spacelpa-archives t
+   dotspacemacs-verify-spacelpa-archives nil
 
    ;; If non-nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
@@ -236,8 +244,10 @@ It should only modify the values of Spacemacs settings."
    ;; package can be defined with `:package', or a theme can be defined with
    ;; `:location' to download the theme package, refer the themes section in
    ;; DOCUMENTATION.org for the full theme specifications.
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(phoenix-dark-pink
+                         doom-city-lights
+                         doom-henna)
+
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -421,7 +431,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Show the scroll bar while scrolling. The auto hide time can be configured
    ;; by setting this variable to a number. (default t)
-   dotspacemacs-scroll-bar-while-scrolling t
+   dotspacemacs-scroll-bar-while-scrolling nil
 
    ;; Control line numbers activation.
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
@@ -599,11 +609,11 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; spacemac annoyances
+  (setq powerline-default-separator 'arrow) ; or 'utf-8 depending on your preference
+  (scroll-bar-mode -1)
+
   ;; My vim keybinds
-  (with-eval-after-load 'evil
-    (define-key evil-insert-state-map (kbd "jk") 'evil-normal-state))
-  (with-eval-after-load 'evil
-    (define-key evil-insert-state-map (kbd "jj") 'evil-normal-state))
   (with-eval-after-load 'evil
     (define-key evil-normal-state-map (kbd ";") 'evil-ex))
   (with-eval-after-load 'spacemacs-evil
@@ -613,18 +623,41 @@ before packages are loaded."
   (with-eval-after-load 'org-agenda
     (define-key org-agenda-mode-map (kbd "t") 'org-agenda-filter-by-tag))
 
-  ;; Attemp to hide scroll bar
-  (scroll-bar-mode -1)
+  (setq org-agenda-files (directory-files-recursively "~/code/" "\\.org$"))
+  (org :variables org-enable-org-journal-support t)
+
+  (use-package org-journal
+    :ensure t
+    :custom
+    (org-journal-dir "~/org/journal/") ;; Change this to wherever you want journal files
+    (org-journal-date-prefix "#+TITLE: ")
+    (org-journal-file-format "%Y-%m-%d.org")
+    (org-journal-date-format "%A, %d %B %Y")
+    (org-journal-enable-agenda-integration t))
+
+  (setq org-src-window-setup 'split-window-right-and-focus) ;; Opens Org buffers below
+
 
   ;; Hide group permissions in dired files
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+
+  (setq auth-sources '("~/.authinfo"))
+
+  ;; GPTEL
+  (setq gptel-session-directory "~/.emacs.d/gptel-sessions/")
+  ;; Ensure the directory exists
+  (unless (file-directory-p gptel-session-directory)
+    (make-directory gptel-session-directory))
+
+  ;; Configure `gptel` with your API key and model
+  ;; (setq gptel-api-key "your-api-key-here")
+  (setq gptel-model "gpt-4o")
 
   )
 
 
 
-
-;; Do not write anything past this comment. This is where Emacs will
+;; do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
