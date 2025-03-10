@@ -14,7 +14,8 @@
         "source": "~/.local/share/fastfetch/ascii/arch.txt",
         "padding": {
             "top": 2,
-            "right": 6
+            "right": 6,
+            "left": 2
         }
     },
     "display": {
@@ -31,44 +32,44 @@
         {
             "type": "os",
             "key": " ",
-            "keyColor": "33"// = color3
+            "keyColor": "34"// = color3
         },
         {
             "type": "kernel",
             "key": " ",
-            "keyColor": "33"
+            "keyColor": "34"
         },
         {
             "type": "packages",
             "format": "{} (pacman)",
             "key": " ",
-            "keyColor": "33"  
+            "keyColor": "34"  
         },
         {
             "type": "shell",
             "key": " ",
-            "keyColor": "33" 
+            "keyColor": "34" 
         },
         {
             "type": "terminal",
             "key": " ",
-            "keyColor": "33" 
+            "keyColor": "34" 
         },
         {
             "type": "wm",
             "key": " ",
-            "keyColor": "33" 
+            "keyColor": "34" 
         },
         {
             "type": "uptime",
             "key": " ",
-            "keyColor": "33" 
+            "keyColor": "34" 
         },
        
         "break",
         {
             "type": "colors",
-            "symbol": "circle"
+            "symbol": "square"
         },
         "break"
     ]

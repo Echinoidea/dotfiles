@@ -18,28 +18,28 @@
     enable_recursive_icon_lookup = true
     corner_radius = 16
 
-    background = "#0c1815CC"
-    foreground = "#efddcdCC"
+    background = "#120f0dCC"
+    foreground = "#e0eeedCC"
 
 [urgency_low]
-    background = "#0c1815CC"
-    highlight = "#7e91b1CC"
-    frame_color = "#efddcdCC"
+    background = "#120f0dCC"
+    highlight = "#D6E6D6CC"
+    frame_color = "#e0eeedCC"
     default_icon = "none"
     format = "<b><span foreground="#b5acb7">%s</span></b>\n%b"
 
 [urgency_normal]
-    background = "#0c1815CC"
-    highlight = "#7e91b1CC"
-    frame_color = "#efddcdCC"
+    background = "#120f0dCC"
+    highlight = "#D6E6D6CC"
+    frame_color = "#e0eeedCC"
     default_icon = "none"
-    format = "<b><span foreground='#efddcdCC'>%s</span></b>\n%b"
+    format = "<b><span foreground='#e0eeedCC'>%s</span></b>\n%b"
 
     transparency = 50
 
 [urgency_critical]
-    background = "#0c1815CC"
-    highlight = "#7e91b1CC"
-    frame_color = "#efddcdCC"
+    background = "#120f0dCC"
+    highlight = "#D6E6D6CC"
+    frame_color = "#e0eeedCC"
     default_icon = ""
     format = "<b><span foreground="#b5acb7">%s</span></b>\n%b"

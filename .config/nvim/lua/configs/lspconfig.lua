@@ -21,4 +21,10 @@ end
 --   on_attach = nvlsp.on_attach,
 --   on_init = nvlsp.on_init,
 --   capabilities = nvlsp.capabilities,
--- }
+
+lspconfig.clangd.setup {
+  on_attach = nvlsp.on_attach,
+  capabilities = nvlsp.capabilities,
+  cmd = { "clangd" },
+  root_dir = vim.fs.dirname(vim.fs.find({ "CMakeLists.txt", "compile_commands.json", ".git" }, { upward = true })[1]),
+}
