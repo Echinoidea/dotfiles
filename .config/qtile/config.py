@@ -1,7 +1,10 @@
-from libqtile import bar, layout, qtile, widget, hook
+from libqtile import bar, layout, qtile, hook, widget
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+
+from qtile_extras import widget
+from qtile_extras.widget.decorations import PowerLineDecoration
 
 import os
 import subprocess
@@ -13,9 +16,6 @@ mod = "mod4"
 terminal = guess_terminal()
 
 keys = [
-    # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
@@ -28,6 +28,7 @@ keys = [
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
@@ -42,7 +43,7 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod], "period", lazy.next_screen(), desc="Next monitor"),
-    Key([mod], "comma", lazy.prev_screen(), desc="Next monitor"),
+    # Key([mod], "comma", lazy.prev_screen(), desc="Next monitor"),
 
     Key(
         [mod, "shift"],
@@ -146,6 +147,18 @@ widget_defaults = dict(
     foreground = color_fg
 )
 
+powerline_right = {
+    "decorations": [
+        PowerLineDecoration(path = "rounded_right")
+    ]
+}
+
+powerline_left = {
+    "decorations": [
+        PowerLineDecoration(path = "rounded_left")
+    ]
+}
+
 bar_main = bar.Bar(
     [
         widget.GroupBox(
@@ -168,44 +181,53 @@ bar_main = bar.Bar(
                     urgent_border=color_red,
                     rounded=False,
                     disable_drag=True,
+                    **powerline_left
         ),
         widget.CurrentLayout(
-            background = adjust_lightness(color_bg, 0.2)
+            background = adjust_lightness(color_bg, 0.2),
+                    **powerline_left
         ),
         widget.Chord(
         ),
         widget.Prompt(
             background = adjust_lightness(color_bg, 0.1),
-            cursor_color = color_white
+            cursor_color = color_white,
+            **powerline_left
         ),
-        widget.Spacer(),
+        widget.Spacer(
+            **powerline_right),
         widget.Volume(
             background = adjust_lightness(color_bg, 0.1),
             emoji = False,
             emoji_list = [ '', '', '', '' ],
             unmute_format=" {volume}%",
+            **powerline_right
         ),
         widget.Battery(
             background = adjust_lightness(color_bg, 0.1),
             charge_char = "",
             discharge_char = "",
-            format = "{char} {percent:2.0%} "
+            format = "{char} {percent:2.0%} ",
+            **powerline_right
         ),
         widget.CPU(
             format = " {load_percent}%",
-            background=adjust_lightness(color_bg, 0.2)
+            background=adjust_lightness(color_bg, 0.2),
+            **powerline_right
         ),
         widget.Memory(
             format = " {MemPercent}% ",
             measure_mem="G",
             background=adjust_lightness(color_bg, 0.2),
+            **powerline_right
         ),
         widget.Clock(
             background=adjust_lightness(color_bg, 0.3),
-            format="%y-%m-%d %a %I:%M %p "
+            format="%y-%m-%d %a %I:%M %p ",
+            # **powerline_right
         ),
         # widget.QuickExit(),
-            ],
+        ],
     24,
     border_color = "#282738",
     margin=[0, 0, 0, 0],
@@ -216,7 +238,6 @@ bar_main = bar.Bar(
 bar_second = bar.Bar(
     [
         widget.GroupBox(
-            # font="ZedMono Nerd Font",
                     fontsize=18,
                     borderwidth=1,
                     padding_x=2,
@@ -235,44 +256,53 @@ bar_second = bar.Bar(
                     urgent_border=color_red,
                     rounded=False,
                     disable_drag=True,
+                    **powerline_left
         ),
         widget.CurrentLayout(
-            background = adjust_lightness(color_bg, 0.2)
+            background = adjust_lightness(color_bg, 0.2),
+                    **powerline_left
         ),
         widget.Chord(
         ),
         widget.Prompt(
             background = adjust_lightness(color_bg, 0.1),
-            cursor_color = color_white
+            cursor_color = color_white,
+            **powerline_left
         ),
-        widget.Spacer(),
+        widget.Spacer(
+            **powerline_right),
         widget.Volume(
             background = adjust_lightness(color_bg, 0.1),
             emoji = False,
             emoji_list = [ '', '', '', '' ],
             unmute_format=" {volume}%",
+            **powerline_right
         ),
         widget.Battery(
             background = adjust_lightness(color_bg, 0.1),
             charge_char = "",
             discharge_char = "",
-            format = "{char} {percent:2.0%} "
+            format = "{char} {percent:2.0%} ",
+            **powerline_right
         ),
         widget.CPU(
             format = " {load_percent}%",
-            background=adjust_lightness(color_bg, 0.2)
+            background=adjust_lightness(color_bg, 0.2),
+            **powerline_right
         ),
         widget.Memory(
             format = " {MemPercent}% ",
             measure_mem="G",
             background=adjust_lightness(color_bg, 0.2),
+            **powerline_right
         ),
         widget.Clock(
             background=adjust_lightness(color_bg, 0.3),
-            format="%y-%m-%d %a %I:%M %p "
+            format="%y-%m-%d %a %I:%M %p ",
+            # **powerline_right
         ),
         # widget.QuickExit(),
-            ],
+        ],
     24,
     border_color = "#282738",
     margin=[0, 0, 0, 0],
@@ -303,7 +333,7 @@ bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
 floating_layout = layout.Floating(
-    border_focus = color_foreground,
+    border_focus = color_fg,
     border_normal = color_bg,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
@@ -347,8 +377,3 @@ def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
     subprocess.call(home)
 
-
-@hook.subscribe.float_change
-@hook.subscribe.client_new
-def set_hint(window):
-    window.window.set_property("IS_FLOATING", int(window.floating))
