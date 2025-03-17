@@ -1,31 +1,13 @@
 from libqtile import bar, layout, qtile, widget, hook
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-#from qtile_extras import widget
 
 import os
 import subprocess
 import json
 
-
-def get_pywal_colors(file_path='/home/gabriel/.cache/wal/colors.json'):
-    with open(file_path, 'r') as f:
-        return json.load(f)
-
-colors = get_pywal_colors()
-
-color_bg = colors["special"]["background"]
-color_fg = colors["special"]["foreground"]
-color_cursor = colors["special"]["cursor"]
-color_black = colors["colors"]["color0"]
-color_red = colors["colors"]["color1"]
-color_green = colors["colors"]["color2"]
-color_yellow = colors["colors"]["color3"]
-color_blue = colors["colors"]["color4"]
-color_pink = colors["colors"]["color5"]
-color_purple = colors["colors"]["color6"]
-color_white = colors["colors"]["color7"]
+from qtile_pywal import *
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -39,6 +21,7 @@ keys = [
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
@@ -51,12 +34,15 @@ keys = [
     Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod], "period", lazy.next_screen(), desc="Next monitor"),
+    Key([mod], "comma", lazy.prev_screen(), desc="Next monitor"),
 
     Key(
         [mod, "shift"],
@@ -64,9 +50,13 @@ keys = [
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
+
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod, "shift"], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
+
     Key([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
     Key(
         [mod],
@@ -78,6 +68,10 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+
+    KeyChord([mod], "e", [
+        Key([], "l", lazy.spawn("emacs"))
+    ])
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -125,14 +119,19 @@ layouts = [
     # layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
-    # layout.Bsp(margin = 8),
     # layout.Matrix(margin = 8),
     layout.MonadTall(
         border_focus = color_green,
         border_normal = color_bg,
-        margin = 8),
+        margin = 4,
+        border_width = 1),
+
+    layout.Bsp(margin = 2,
+               border_width = 1,
+               border_focus = color_green,
+               border_normal = color_bg),
     # layout.MonadWide(margin = 8),
-    # layout.RatioTile(margin = 8),
+    # layout.RatioTile(margin = 8, fancy = True, border_focus = color_green, bg_normal = color_bg, ratio = 1.3),
     # layout.Tile(margin = 8),
     # layout.TreeTab(margin = 8),
     # layout.VerticalTile(margin = 8),
@@ -140,88 +139,153 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="DepartureMono Nerd Font",
-    fontsize=12,
+    font="Terminess Nerd Font",
+    fontsize=14,
     padding=3,
+    background = color_bg,
+    foreground = color_fg
 )
 
-screens = [
-    Screen(
-        top=bar.Bar(
-            [
-                widget.GroupBox(
-                    # font="ZedMono Nerd Font",
+bar_main = bar.Bar(
+    [
+        widget.GroupBox(
+            # font="ZedMono Nerd Font",
                     fontsize=18,
                     borderwidth=1,
                     padding_x=2,
                     padding_y=10,
                     highlight_method='line',
-                    active=color_cursor,
+                    active=color_fg,
                     block_highlight_text_color=color_red,
-                    highlight_color=color_bg,
-                    inactive=color_white,
+                    highlight_color=adjust_lightness(color_bg, 0.3),
+                    inactive=color_black,
                     foreground=color_fg,
-                    background=color_bg,
+                    background=adjust_lightness(color_bg, 0.25),
                     this_current_screen_border=color_white,
                     this_screen_border=color_cursor,
-                    other_current_screen_border=color_white,
-                    other_screen_border=color_white,
+                    other_current_screen_border=color_yellow,
+                    other_screen_border=color_yellow,
                     urgent_border=color_red,
-                    rounded=True,
+                    rounded=False,
                     disable_drag=True,
-                ),
-                widget.Prompt(),
-                widget.CurrentLayout(),
-                widget.WindowName(max_chars = 30),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#d0d0d0", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                # widget.TextBox("default config", name="default"),
-                # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
+        ),
+        widget.CurrentLayout(
+            background = adjust_lightness(color_bg, 0.2)
+        ),
+        widget.Chord(
+        ),
+        widget.Prompt(
+            background = adjust_lightness(color_bg, 0.1),
+            cursor_color = color_white
+        ),
+        widget.Spacer(),
+        widget.Volume(
+            background = adjust_lightness(color_bg, 0.1),
+            emoji = False,
+            emoji_list = [ '', '', '', '' ],
+            unmute_format=" {volume}%",
+        ),
+        widget.Battery(
+            background = adjust_lightness(color_bg, 0.1),
+            charge_char = "",
+            discharge_char = "",
+            format = "{char} {percent:2.0%} "
+        ),
+        widget.CPU(
+            format = " {load_percent}%",
+            background=adjust_lightness(color_bg, 0.2)
+        ),
+        widget.Memory(
+            format = " {MemPercent}% ",
+            measure_mem="G",
+            background=adjust_lightness(color_bg, 0.2),
+        ),
+        widget.Clock(
+            background=adjust_lightness(color_bg, 0.3),
+            format="%y-%m-%d %a %I:%M %p "
+        ),
+        # widget.QuickExit(),
             ],
-            20,
-            border_color = "#282738",
-            margin=[4, 12, 4, 12],
-            #border_width=[0, 0, 0, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-        )
-        # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
-        # x11_drag_polling_rate = 60,
+    24,
+    border_color = "#282738",
+    margin=[0, 0, 0, 0],
+    #border_width=[0, 0, 0, 0],  # Draw top and bottom borders
+    # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+    )
+
+bar_second = bar.Bar(
+    [
+        widget.GroupBox(
+            # font="ZedMono Nerd Font",
+                    fontsize=18,
+                    borderwidth=1,
+                    padding_x=2,
+                    padding_y=10,
+                    highlight_method='line',
+                    active=color_fg,
+                    block_highlight_text_color=color_red,
+                    highlight_color=adjust_lightness(color_bg, 0.3),
+                    inactive=color_black,
+                    foreground=color_fg,
+                    background=adjust_lightness(color_bg, 0.25),
+                    this_current_screen_border=color_white,
+                    this_screen_border=color_cursor,
+                    other_current_screen_border=color_yellow,
+                    other_screen_border=color_yellow,
+                    urgent_border=color_red,
+                    rounded=False,
+                    disable_drag=True,
+        ),
+        widget.CurrentLayout(
+            background = adjust_lightness(color_bg, 0.2)
+        ),
+        widget.Chord(
+        ),
+        widget.Prompt(
+            background = adjust_lightness(color_bg, 0.1),
+            cursor_color = color_white
+        ),
+        widget.Spacer(),
+        widget.Volume(
+            background = adjust_lightness(color_bg, 0.1),
+            emoji = False,
+            emoji_list = [ '', '', '', '' ],
+            unmute_format=" {volume}%",
+        ),
+        widget.Battery(
+            background = adjust_lightness(color_bg, 0.1),
+            charge_char = "",
+            discharge_char = "",
+            format = "{char} {percent:2.0%} "
+        ),
+        widget.CPU(
+            format = " {load_percent}%",
+            background=adjust_lightness(color_bg, 0.2)
+        ),
+        widget.Memory(
+            format = " {MemPercent}% ",
+            measure_mem="G",
+            background=adjust_lightness(color_bg, 0.2),
+        ),
+        widget.Clock(
+            background=adjust_lightness(color_bg, 0.3),
+            format="%y-%m-%d %a %I:%M %p "
+        ),
+        # widget.QuickExit(),
+            ],
+    24,
+    border_color = "#282738",
+    margin=[0, 0, 0, 0],
+    #border_width=[0, 0, 0, 0],  # Draw top and bottom borders
+    # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+    )
+
+screens = [
+    Screen(
+        top=bar_main
     ),
     Screen(
-        top=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#d0d0d0", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                # widget.TextBox("default config", name="default"),
-                # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
-                # widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
-            ],
-            20,
-            #border_width=[0, 0, 0, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-        )
-        # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
-        # x11_drag_polling_rate = 60,
+        top=bar_second
     ),
 ]
 
@@ -239,6 +303,8 @@ bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
 floating_layout = layout.Floating(
+    border_focus = color_foreground,
+    border_normal = color_bg,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
@@ -280,3 +346,9 @@ wmname = "Qtile"
 def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
     subprocess.call(home)
+
+
+@hook.subscribe.float_change
+@hook.subscribe.client_new
+def set_hint(window):
+    window.window.set_property("IS_FLOATING", int(window.floating))
