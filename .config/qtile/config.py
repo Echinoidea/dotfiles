@@ -70,9 +70,47 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 
-    KeyChord([mod], "e", [
-        Key([], "l", lazy.spawn("emacs"))
-    ])
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +1%")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -1%")),
+
+    Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +5%")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 5%-")),
+
+    # Leader start keychord
+    KeyChord(
+        modifiers=[mod],
+        key="space",
+        mode=False,
+        name="leader",
+        desc="exec",
+        submappings=[
+            # o for 'open'
+            KeyChord(
+                [], "o", [
+                    Key([], "e", lazy.spawn("emacs")),
+                    Key([], "m", lazy.spawn("kitty -e kew")),
+                    Key([], "y", lazy.spawn("kitty -e yazi")),
+                    Key([], "z", lazy.spawn("zen-browser")),
+                    Key([], "d", lazy.spawn("discord")),
+                    Key([], "h", lazy.spawn("alacritty -e htop")),
+                    Key([], "c", lazy.spawn("alacritty -e cava")),
+                ],
+                mode=False,
+                name="open",
+                desc="open a program"
+            ),
+
+            KeyChord(
+                [], "p", [
+                    Key([], "b", lazy.spawn("/home/gabriel/.config/qtile/theme-scripts/black.sh")),
+                    Key([], "s", lazy.spawn("/home/gabriel/.config/qtile/theme-scripts/sky.sh")),
+                ],
+                mode=False,
+                name="theme",
+                desc="set theme with feh and pywal"
+            ),
+        ],
+    )
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -117,7 +155,6 @@ for i in groups:
 
 layouts = [
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=1),
-    # layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Matrix(margin = 8),
@@ -127,16 +164,18 @@ layouts = [
         margin = 4,
         border_width = 1),
 
-    layout.Bsp(margin = 2,
-               border_width = 1,
+    layout.Bsp(margin = 32,
+               border_width = 2,
                border_focus = color_green,
                border_normal = color_bg),
+
     # layout.MonadWide(margin = 8),
-    # layout.RatioTile(margin = 8, fancy = True, border_focus = color_green, bg_normal = color_bg, ratio = 1.3),
+    layout.RatioTile(margin = 8, fancy = True, border_focus = color_green, bg_normal = color_bg, ratio = 1.3),
     # layout.Tile(margin = 8),
     # layout.TreeTab(margin = 8),
     # layout.VerticalTile(margin = 8),
     layout.Zoomy(),
+    layout.Max(),
 ]
 
 widget_defaults = dict(
@@ -185,7 +224,7 @@ bar_main = bar.Bar(
         ),
         widget.CurrentLayout(
             background = adjust_lightness(color_bg, 0.2),
-                    **powerline_left
+            **powerline_left
         ),
         widget.Chord(
         ),
@@ -216,7 +255,7 @@ bar_main = bar.Bar(
             **powerline_right
         ),
         widget.Memory(
-            format = " {MemPercent}% ",
+            format = " {MemPercent}%",
             measure_mem="G",
             background=adjust_lightness(color_bg, 0.2),
             **powerline_right
@@ -226,13 +265,10 @@ bar_main = bar.Bar(
             format="%y-%m-%d %a %I:%M %p ",
             # **powerline_right
         ),
-        # widget.QuickExit(),
         ],
     24,
     border_color = "#282738",
     margin=[0, 0, 0, 0],
-    #border_width=[0, 0, 0, 0],  # Draw top and bottom borders
-    # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
     )
 
 bar_second = bar.Bar(
@@ -291,7 +327,7 @@ bar_second = bar.Bar(
             **powerline_right
         ),
         widget.Memory(
-            format = " {MemPercent}% ",
+            format = " {MemPercent}%",
             measure_mem="G",
             background=adjust_lightness(color_bg, 0.2),
             **powerline_right
