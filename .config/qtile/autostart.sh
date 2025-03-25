@@ -1,4 +1,4 @@
 #!/bin/sh
 
 picom &
-feh --bg-fill ~/Pictures/wallpapers/new/ascii-flower.png &
+feh --bg-fill ~/Pictures/wallpapers/black-rosepine.png

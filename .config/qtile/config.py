@@ -154,28 +154,31 @@ for i in groups:
     )
 
 layouts = [
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=1),
+    layout.Columns(border_focus_stack=[color_green, color_white], border_focus=color_green, border_normal=color_bg, insert_position=1, border_width=1, margin=4),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Matrix(margin = 8),
-    layout.MonadTall(
+    # layout.MonadTall(
+    #     border_focus = color_green,
+    #     border_normal = color_bg,
+    #     margin = 4,
+    #     border_width = 1),
+    # layout.Bsp(margin = 32,
+    #            border_width = 2,
+    #            border_focus = color_green,
+    #            border_normal = color_bg),
+
+    # layout.RatioTile(margin = 8, fancy = True, border_focus = color_green, bg_normal = color_bg, ratio = 1.3),
+    # layout.Tile(margin = 8),
+    # layout.TreeTab(margin = 8),
+    # layout.VerticalTile(margin = 8),
+    # layout.Zoomy(),
+    layout.Max(),
+    layout.MonadWide(
         border_focus = color_green,
         border_normal = color_bg,
         margin = 4,
         border_width = 1),
-
-    layout.Bsp(margin = 32,
-               border_width = 2,
-               border_focus = color_green,
-               border_normal = color_bg),
-
-    # layout.MonadWide(margin = 8),
-    layout.RatioTile(margin = 8, fancy = True, border_focus = color_green, bg_normal = color_bg, ratio = 1.3),
-    # layout.Tile(margin = 8),
-    # layout.TreeTab(margin = 8),
-    # layout.VerticalTile(margin = 8),
-    layout.Zoomy(),
-    layout.Max(),
 ]
 
 widget_defaults = dict(
@@ -209,10 +212,10 @@ bar_main = bar.Bar(
                     highlight_method='line',
                     active=color_fg,
                     block_highlight_text_color=color_red,
-                    highlight_color=adjust_lightness(color_bg, 0.3),
+                    highlight_color=adjust_lightness(color_bg, 0.3, 0.3),
                     inactive=color_black,
                     foreground=color_fg,
-                    background=adjust_lightness(color_bg, 0.25),
+                    background=adjust_lightness(color_bg, 0.25, 0.25),
                     this_current_screen_border=color_white,
                     this_screen_border=color_cursor,
                     other_current_screen_border=color_yellow,
@@ -223,27 +226,27 @@ bar_main = bar.Bar(
                     **powerline_left
         ),
         widget.CurrentLayout(
-            background = adjust_lightness(color_bg, 0.2),
+            background = adjust_lightness(color_bg, 0.2, 0.2),
             **powerline_left
         ),
         widget.Chord(
         ),
         widget.Prompt(
-            background = adjust_lightness(color_bg, 0.1),
+            background = adjust_lightness(color_bg, 0.1, 0.1),
             cursor_color = color_white,
             **powerline_left
         ),
         widget.Spacer(
             **powerline_right),
         widget.Volume(
-            background = adjust_lightness(color_bg, 0.1),
+            background = adjust_lightness(color_bg, 0.1, 0.1),
             emoji = False,
             emoji_list = [ '', '', '', '' ],
             unmute_format=" {volume}%",
             **powerline_right
         ),
         widget.Battery(
-            background = adjust_lightness(color_bg, 0.1),
+            background = adjust_lightness(color_bg, 0.1, 0.1),
             charge_char = "",
             discharge_char = "",
             format = "{char} {percent:2.0%} ",
@@ -251,17 +254,17 @@ bar_main = bar.Bar(
         ),
         widget.CPU(
             format = " {load_percent}%",
-            background=adjust_lightness(color_bg, 0.2),
+            background=adjust_lightness(color_bg, 0.2, 0.2),
             **powerline_right
         ),
         widget.Memory(
             format = " {MemPercent}%",
             measure_mem="G",
-            background=adjust_lightness(color_bg, 0.2),
+            background=adjust_lightness(color_bg, 0.2, 0.2),
             **powerline_right
         ),
         widget.Clock(
-            background=adjust_lightness(color_bg, 0.3),
+            background=adjust_lightness(color_bg, 0.3, 0.3),
             format="%y-%m-%d %a %I:%M %p ",
             # **powerline_right
         ),
@@ -281,10 +284,10 @@ bar_second = bar.Bar(
                     highlight_method='line',
                     active=color_fg,
                     block_highlight_text_color=color_red,
-                    highlight_color=adjust_lightness(color_bg, 0.3),
+                    highlight_color=adjust_lightness(color_bg, 0.3, 0.3),
                     inactive=color_black,
                     foreground=color_fg,
-                    background=adjust_lightness(color_bg, 0.25),
+                    background=adjust_lightness(color_bg, 0.25, 0.25),
                     this_current_screen_border=color_white,
                     this_screen_border=color_cursor,
                     other_current_screen_border=color_yellow,
@@ -295,27 +298,27 @@ bar_second = bar.Bar(
                     **powerline_left
         ),
         widget.CurrentLayout(
-            background = adjust_lightness(color_bg, 0.2),
+            background = adjust_lightness(color_bg, 0.2, 0.2),
                     **powerline_left
         ),
         widget.Chord(
         ),
         widget.Prompt(
-            background = adjust_lightness(color_bg, 0.1),
+            background = adjust_lightness(color_bg, 0.1, 0.1),
             cursor_color = color_white,
             **powerline_left
         ),
         widget.Spacer(
             **powerline_right),
         widget.Volume(
-            background = adjust_lightness(color_bg, 0.1),
+            background = adjust_lightness(color_bg, 0.1, 0.1),
             emoji = False,
             emoji_list = [ '', '', '', '' ],
             unmute_format=" {volume}%",
             **powerline_right
         ),
         widget.Battery(
-            background = adjust_lightness(color_bg, 0.1),
+            background = adjust_lightness(color_bg, 0.1, 0.1),
             charge_char = "",
             discharge_char = "",
             format = "{char} {percent:2.0%} ",
@@ -323,17 +326,17 @@ bar_second = bar.Bar(
         ),
         widget.CPU(
             format = " {load_percent}%",
-            background=adjust_lightness(color_bg, 0.2),
+            background=adjust_lightness(color_bg, 0.2, 0.2),
             **powerline_right
         ),
         widget.Memory(
             format = " {MemPercent}%",
             measure_mem="G",
-            background=adjust_lightness(color_bg, 0.2),
+            background=adjust_lightness(color_bg, 0.2, 0.2),
             **powerline_right
         ),
         widget.Clock(
-            background=adjust_lightness(color_bg, 0.3),
+            background=adjust_lightness(color_bg, 0.3, 0.3),
             format="%y-%m-%d %a %I:%M %p ",
             # **powerline_right
         ),
@@ -413,3 +416,6 @@ def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
     subprocess.call(home)
 
+@hook.subscribe.startup
+def _():
+    bar_main.window.window.set_property("QTILE_BAR", 1, "CARDINAL", 32)
