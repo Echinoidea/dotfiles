@@ -85,7 +85,7 @@ keys = [
         modifiers=[mod],
         key="space",
         mode=False,
-        name="leader [[f]iles [o]pen [p]alette [l]ayouts]",
+        name="leader [<f>iles <o>pen <p>alette <l>ayouts]",
         desc="exec",
         submappings=[
             # o for 'open'
@@ -100,7 +100,7 @@ keys = [
                     Key([], "c", lazy.spawn("alacritty -e cava")),
                 ],
                 mode=False,
-                name="open [[e]macs [m]usic [y]azi [w]eb [d]iscord [h]top [c]ava]",
+                name="open [<e>macs <m>usic <y>azi <w>eb <d>iscord <h>top <c>ava]",
                 desc="open a program"
             ),
 
@@ -113,7 +113,7 @@ keys = [
                     Key([], "n", lazy.spawn("/home/gabriel/.config/qtile/theme-scripts/nord.sh")),
                 ],
                 mode=False,
-                name="theme [[b]lue [s]ky [x]p [l]antern] [n]ord",
+                name="theme [<b>lue <s>ky <x>p <l>antern] <n>ord",
                 desc="set theme with feh and pywal"
             ),
             KeyChord(
@@ -125,7 +125,7 @@ keys = [
                     Key([], "d", lazy.spawn("kitty -e yazi ~/Downloads")),
                 ],
                 mode=False,
-                name="files [[.]config [w]allpapers [p]ictures [v]ideos [d]ownloads]",
+                name="files [<.>config <w>allpapers <p>ictures <v>ideos <d>ownloads]",
                 desc="Go to directory with Yazi"
             ),
             # Monad resizing
@@ -153,16 +153,16 @@ keys = [
                                      name="set monad ratio [1-9]")
                         ],
                                  mode=True,
-                                 name="monad resize [h j k l j [n]ormalize [r]atio]",
+                                 name="monad resize [h j k l j <n>ormalize <r>atio]",
                                  desc="Resize Monad windows"
                                  ),
                     ],
-                             name="monad [[r]esize]",
+                             name="monad [<r>esize]",
                              desc="Control Monad layouts"
                              )
                 ],
                 mode=False,
-                name="layouts [[m]onad]",
+                name="layouts [<m>onad]",
                 desc="Command layouts"
             ),
         ],

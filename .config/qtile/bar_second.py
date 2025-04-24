@@ -55,7 +55,8 @@ bar_second = bar.Bar(
             **powerline_left
         ),
         widget.Chord(
-            max_chars=100
+            max_chars=100,
+            markup=False
         ),
         widget.Prompt(
             background = adjust_lightness(color_bg, 0.04, 0.04),
