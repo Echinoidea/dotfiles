@@ -1,4 +1,5 @@
 #!/bin/sh
 
+dunst &
 picom &
-feh --bg-fill ~/Pictures/wallpapers/black-rosepine.png
+~/.fehbg

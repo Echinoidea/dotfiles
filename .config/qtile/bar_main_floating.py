@@ -7,7 +7,6 @@ from qtile_pywal import *
 
 widget_defaults = dict(
     font="GoMono Nerd Font",
-    # font="Kirsch Nerd Font Mono"
     fontsize=12,
     padding=3,
     background = color_bg,
@@ -26,7 +25,7 @@ powerline_left = {
     ]
 }
 
-bar_main = bar.Bar(
+bar_main_floating = bar.Bar(
     [
         widget.GroupBox(
                     fontsize=14,
@@ -54,7 +53,6 @@ bar_main = bar.Bar(
             **powerline_left
         ),
         widget.Chord(
-            max_chars=100
         ),
         widget.Prompt(
             background = adjust_lightness(color_bg, 0.04, 0.04),
@@ -104,5 +102,5 @@ bar_main = bar.Bar(
     ],
     24,
     border_color = "#282738",
-    margin=[0, 0, 0, 0],
+    margin=[8, 8, 0, 8],
 )

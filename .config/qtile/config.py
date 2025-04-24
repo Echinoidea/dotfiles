@@ -5,12 +5,15 @@ from libqtile.utils import guess_terminal
 
 from qtile_extras import widget
 from qtile_extras.widget.decorations import PowerLineDecoration
+from qtile_extras.layout.decorations.borders import GradientBorder
 
 import os
 import subprocess
 import json
 
 from qtile_pywal import *
+from bar_main import bar_main
+from bar_second import bar_second
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -35,6 +38,7 @@ keys = [
     Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+
 
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
 
@@ -70,18 +74,18 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +1%")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -1%")),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer set Master 5%+")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer set Master 5%-")),
 
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +5%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 5%-")),
 
-    # Leader start keychord
+    # Leader start Keykeychord
     KeyChord(
         modifiers=[mod],
         key="space",
         mode=False,
-        name="leader",
+        name="leader [[f]iles [o]pen [p]alette [l]ayouts]",
         desc="exec",
         submappings=[
             # o for 'open'
@@ -90,13 +94,13 @@ keys = [
                     Key([], "e", lazy.spawn("emacs")),
                     Key([], "m", lazy.spawn("kitty -e kew")),
                     Key([], "y", lazy.spawn("kitty -e yazi")),
-                    Key([], "z", lazy.spawn("zen-browser")),
+                    Key([], "w", lazy.spawn("firefox")),
                     Key([], "d", lazy.spawn("discord")),
                     Key([], "h", lazy.spawn("alacritty -e htop")),
                     Key([], "c", lazy.spawn("alacritty -e cava")),
                 ],
                 mode=False,
-                name="open",
+                name="open [[e]macs [m]usic [y]azi [w]eb [d]iscord [h]top [c]ava]",
                 desc="open a program"
             ),
 
@@ -104,10 +108,62 @@ keys = [
                 [], "p", [
                     Key([], "b", lazy.spawn("/home/gabriel/.config/qtile/theme-scripts/black.sh")),
                     Key([], "s", lazy.spawn("/home/gabriel/.config/qtile/theme-scripts/sky.sh")),
+                    Key([], "x", lazy.spawn("/home/gabriel/.config/qtile/theme-scripts/winxp.sh")),
+                    Key([], "l", lazy.spawn("/home/gabriel/.config/qtile/theme-scripts/brown.sh")),
+                    Key([], "n", lazy.spawn("/home/gabriel/.config/qtile/theme-scripts/nord.sh")),
                 ],
                 mode=False,
-                name="theme",
+                name="theme [[b]lue [s]ky [x]p [l]antern] [n]ord",
                 desc="set theme with feh and pywal"
+            ),
+            KeyChord(
+                [], "f", [
+                    Key([], "w", lazy.spawn("kitty -e yazi ~/Pictures/wallpapers")),
+                    Key([], "p", lazy.spawn("kitty -e yazi ~/Pictures")),
+                    Key([], ".", lazy.spawn("kitty -e yazi ~/.config")),
+                    Key([], "v", lazy.spawn("kitty -e yazi ~/Videos")),
+                    Key([], "d", lazy.spawn("kitty -e yazi ~/Downloads")),
+                ],
+                mode=False,
+                name="files [[.]config [w]allpapers [p]ictures [v]ideos [d]ownloads]",
+                desc="Go to directory with Yazi"
+            ),
+            # Monad resizing
+            KeyChord(
+                [], "l", [
+                    KeyChord([], "m", [
+                        KeyChord([], "r", [
+                            Key([], "l", lazy.layout.grow()),
+                            Key([], "k", lazy.layout.grow()),
+                            Key([], "h", lazy.layout.shrink()),
+                            Key([], "j", lazy.layout.shrink()),
+                            Key([], "n", lazy.layout.normalize()),
+                            KeyChord([], "r", [
+                                Key([], "1", lazy.layout.set_ratio(0.1)),
+                                Key([], "2", lazy.layout.set_ratio(0.2)),
+                                Key([], "3", lazy.layout.set_ratio(0.3)),
+                                Key([], "4", lazy.layout.set_ratio(0.4)),
+                                Key([], "5", lazy.layout.set_ratio(0.5)),
+                                Key([], "6", lazy.layout.set_ratio(0.6)),
+                                Key([], "7", lazy.layout.set_ratio(0.7)),
+                                Key([], "8", lazy.layout.set_ratio(0.8)),
+                                Key([], "9", lazy.layout.set_ratio(0.9)),
+                            ],
+                                     mode=True,
+                                     name="set monad ratio [1-9]")
+                        ],
+                                 mode=True,
+                                 name="monad resize [h j k l j [n]ormalize [r]atio]",
+                                 desc="Resize Monad windows"
+                                 ),
+                    ],
+                             name="monad [[r]esize]",
+                             desc="Control Monad layouts"
+                             )
+                ],
+                mode=False,
+                name="layouts [[m]onad]",
+                desc="Command layouts"
             ),
         ],
     )
@@ -154,15 +210,31 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus_stack=[color_green, color_white], border_focus=color_green, border_normal=color_bg, insert_position=1, border_width=1, margin=4),
+    layout.Columns(border_focus_stack=[color_green, color_white],
+                   border_focus=color_green,
+                   border_normal=color_bg,
+                   insert_position=1,
+                   border_width=1,
+                   margin=4
+                   ),
+    # layout.MonadTall(
+    #     border_focus=color_green,
+    #     # border_focus = GradientBorder(['00ff00', 'ff0000']),
+    #     # border_focus=GradientBorder(colours=["00f", "0ff"]),
+    #     border_normal = color_bg,
+    #     margin = 8,
+    #     border_width = 2),
+    layout.MonadWide(
+        border_focus = color_green,
+        border_normal = color_bg,
+        ratio=0.7,
+        margin = 8,
+        border_width = 1,
+        min_ratio=0.1,
+        max_ratio=0.9),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Matrix(margin = 8),
-    # layout.MonadTall(
-    #     border_focus = color_green,
-    #     border_normal = color_bg,
-    #     margin = 4,
-    #     border_width = 1),
     # layout.Bsp(margin = 32,
     #            border_width = 2,
     #            border_focus = color_green,
@@ -174,16 +246,12 @@ layouts = [
     # layout.VerticalTile(margin = 8),
     # layout.Zoomy(),
     layout.Max(),
-    layout.MonadWide(
-        border_focus = color_green,
-        border_normal = color_bg,
-        margin = 4,
-        border_width = 1),
 ]
 
 widget_defaults = dict(
-    font="Terminess Nerd Font",
-    fontsize=14,
+    font="GoMono Nerd Font",
+    # font="Kirsch Nerd Font Mono"
+    fontsize=12,
     padding=3,
     background = color_bg,
     foreground = color_fg
@@ -191,167 +259,20 @@ widget_defaults = dict(
 
 powerline_right = {
     "decorations": [
-        PowerLineDecoration(path = "rounded_right")
+        PowerLineDecoration(path = "arrow_right")
     ]
 }
 
 powerline_left = {
     "decorations": [
-        PowerLineDecoration(path = "rounded_left")
+        PowerLineDecoration(path = "arrow_left")
     ]
 }
 
-bar_main = bar.Bar(
-    [
-        widget.GroupBox(
-            # font="ZedMono Nerd Font",
-                    fontsize=18,
-                    borderwidth=1,
-                    padding_x=2,
-                    padding_y=10,
-                    highlight_method='line',
-                    active=color_fg,
-                    block_highlight_text_color=color_red,
-                    highlight_color=adjust_lightness(color_bg, 0.3, 0.3),
-                    inactive=color_black,
-                    foreground=color_fg,
-                    background=adjust_lightness(color_bg, 0.25, 0.25),
-                    this_current_screen_border=color_white,
-                    this_screen_border=color_cursor,
-                    other_current_screen_border=color_yellow,
-                    other_screen_border=color_yellow,
-                    urgent_border=color_red,
-                    rounded=False,
-                    disable_drag=True,
-                    **powerline_left
-        ),
-        widget.CurrentLayout(
-            background = adjust_lightness(color_bg, 0.2, 0.2),
-            **powerline_left
-        ),
-        widget.Chord(
-        ),
-        widget.Prompt(
-            background = adjust_lightness(color_bg, 0.1, 0.1),
-            cursor_color = color_white,
-            **powerline_left
-        ),
-        widget.Spacer(
-            **powerline_right),
-        widget.Volume(
-            background = adjust_lightness(color_bg, 0.1, 0.1),
-            emoji = False,
-            emoji_list = [ '', '', '', '' ],
-            unmute_format=" {volume}%",
-            **powerline_right
-        ),
-        widget.Battery(
-            background = adjust_lightness(color_bg, 0.1, 0.1),
-            charge_char = "",
-            discharge_char = "",
-            format = "{char} {percent:2.0%} ",
-            **powerline_right
-        ),
-        widget.CPU(
-            format = " {load_percent}%",
-            background=adjust_lightness(color_bg, 0.2, 0.2),
-            **powerline_right
-        ),
-        widget.Memory(
-            format = " {MemPercent}%",
-            measure_mem="G",
-            background=adjust_lightness(color_bg, 0.2, 0.2),
-            **powerline_right
-        ),
-        widget.Clock(
-            background=adjust_lightness(color_bg, 0.3, 0.3),
-            format="%y-%m-%d %a %I:%M %p ",
-            # **powerline_right
-        ),
-        ],
-    24,
-    border_color = "#282738",
-    margin=[0, 0, 0, 0],
-    )
-
-bar_second = bar.Bar(
-    [
-        widget.GroupBox(
-                    fontsize=18,
-                    borderwidth=1,
-                    padding_x=2,
-                    padding_y=10,
-                    highlight_method='line',
-                    active=color_fg,
-                    block_highlight_text_color=color_red,
-                    highlight_color=adjust_lightness(color_bg, 0.3, 0.3),
-                    inactive=color_black,
-                    foreground=color_fg,
-                    background=adjust_lightness(color_bg, 0.25, 0.25),
-                    this_current_screen_border=color_white,
-                    this_screen_border=color_cursor,
-                    other_current_screen_border=color_yellow,
-                    other_screen_border=color_yellow,
-                    urgent_border=color_red,
-                    rounded=False,
-                    disable_drag=True,
-                    **powerline_left
-        ),
-        widget.CurrentLayout(
-            background = adjust_lightness(color_bg, 0.2, 0.2),
-                    **powerline_left
-        ),
-        widget.Chord(
-        ),
-        widget.Prompt(
-            background = adjust_lightness(color_bg, 0.1, 0.1),
-            cursor_color = color_white,
-            **powerline_left
-        ),
-        widget.Spacer(
-            **powerline_right),
-        widget.Volume(
-            background = adjust_lightness(color_bg, 0.1, 0.1),
-            emoji = False,
-            emoji_list = [ '', '', '', '' ],
-            unmute_format=" {volume}%",
-            **powerline_right
-        ),
-        widget.Battery(
-            background = adjust_lightness(color_bg, 0.1, 0.1),
-            charge_char = "",
-            discharge_char = "",
-            format = "{char} {percent:2.0%} ",
-            **powerline_right
-        ),
-        widget.CPU(
-            format = " {load_percent}%",
-            background=adjust_lightness(color_bg, 0.2, 0.2),
-            **powerline_right
-        ),
-        widget.Memory(
-            format = " {MemPercent}%",
-            measure_mem="G",
-            background=adjust_lightness(color_bg, 0.2, 0.2),
-            **powerline_right
-        ),
-        widget.Clock(
-            background=adjust_lightness(color_bg, 0.3, 0.3),
-            format="%y-%m-%d %a %I:%M %p ",
-            # **powerline_right
-        ),
-        # widget.QuickExit(),
-        ],
-    24,
-    border_color = "#282738",
-    margin=[0, 0, 0, 0],
-    #border_width=[0, 0, 0, 0],  # Draw top and bottom borders
-    # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-    )
 
 screens = [
     Screen(
-        top=bar_main
+        top=bar_main,
     ),
     Screen(
         top=bar_second

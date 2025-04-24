@@ -55,7 +55,7 @@ color_blue = colors["colors"]["color4"]
 color_pink = colors["colors"]["color5"]
 color_purple = colors["colors"]["color6"]
 color_white = colors["colors"]["color7"]
-
+print(color_black)
 # colors = load_colors()
 
 # color_bg = colors["special"]["background"]
