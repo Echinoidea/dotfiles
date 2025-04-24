@@ -113,7 +113,7 @@ keys = [
                     Key([], "n", lazy.spawn("/home/gabriel/.config/qtile/theme-scripts/nord.sh")),
                 ],
                 mode=False,
-                name="theme [<b>lue <s>ky <x>p <l>antern] <n>ord",
+                name="theme [<b>lack <s>ky <x>p <l>antern <n>ord]",
                 desc="set theme with feh and pywal"
             ),
             KeyChord(
@@ -211,10 +211,10 @@ for i in groups:
 
 layouts = [
     layout.Columns(border_focus_stack=[color_green, color_white],
-                   border_focus=color_green,
-                   border_normal=color_bg,
+                   border_focus=color_white,
+                   border_normal=adjust_lightness(color_white, 0.3, 0.3),
                    insert_position=1,
-                   border_width=1,
+                   border_width=2,
                    margin=4
                    ),
     # layout.MonadTall(
@@ -225,11 +225,11 @@ layouts = [
     #     margin = 8,
     #     border_width = 2),
     layout.MonadWide(
-        border_focus = color_green,
-        border_normal = color_bg,
+        border_focus = color_white,
+        border_normal = color_red,
         ratio=0.7,
         margin = 8,
-        border_width = 1,
+        border_width = 2,
         min_ratio=0.1,
         max_ratio=0.9),
     # Try more layouts by unleashing below layouts.
@@ -340,3 +340,4 @@ def autostart():
 @hook.subscribe.startup
 def _():
     bar_main.window.window.set_property("QTILE_BAR", 1, "CARDINAL", 32)
+    bar_second.window.window.set_property("QTILE_BAR", 1, "CARDINAL", 32)
