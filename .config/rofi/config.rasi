@@ -2,7 +2,7 @@
 @import "~/.cache/wal/colors-rofi-dark"
 
 configuration {
-    font: "MapleMono 11";
+    font: "DepartureMono Nerd Font 11";
 
 
     drun {
@@ -45,7 +45,7 @@ listview {
 element {
     border:  0;
     padding: 4px ;
-    border-radius: 14px;
+    border-radius: 2px;
 } 
 element.normal.normal {
     background-color: transparent;

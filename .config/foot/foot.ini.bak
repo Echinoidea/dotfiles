@@ -1,0 +1,27 @@
+
+[main]
+font=Hack Nerd Font Mono:size=12
+font-size-adjustment=1px
+dpi-aware=no
+
+[colors]
+foreground=7C6F64
+background=FBF1C7
+
+regular0=FBF1C7
+regular1=CC241D
+regular2=98971A
+regular3=D79921
+regular4=458588
+regular5=B16286
+regular6=689D6A
+regular7=7C6F64
+
+bright0=928374
+bright1=CC241D
+bright2=98971A
+bright3=D79921
+bright4=458588
+bright5=B16286
+bright6=689D6A
+bright7=3C3836

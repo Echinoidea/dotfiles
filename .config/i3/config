@@ -18,7 +18,7 @@ font pango:Hack Nerd Font 8
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-exec --no-startup-id xset r rate 400 35
+exec --no-startup-id xset r rate 350 35
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -38,7 +38,7 @@ exec_always --no-startup-id dunst &
 
 # set wallpaper with fed
 # exec_always --no-startup-id feh --no-fehbg --bg-scale ~/Pictures/wallpapers/dogwood1.png
-exec_always --no-startup-id feh --no-fehbg --bg-tile $HOME/Pictures/wallpapers/tiled/star.gif
+exec_always --no-startup-id feh --no-fehbg --bg-fill $HOME/Pictures/wallpapers/new/starry-night.jpg
 
 # launch polybar
 exec_always --no-startup-id $HOME/.config/polybar/hack/launch.sh

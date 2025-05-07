@@ -185,14 +185,14 @@ function ColorPreview({ schemeFileName }: { schemeFileName: string }): JSX.Eleme
   return <box halign={Gtk.Align.END} spacing={1}>
     {
       Array.from({ length: 7 }, (_, i) => i + 1).map((number) => (
-        <label css={`font-size: 20px; color: ${colors[`color${number}`]}`} label={"󰋘"} />
+        <label css={`font-size: 20px; color: ${colors[`color${number}`]}`} label={"󰋘"} halign={Gtk.Align.BASELINE} />
       ))}
   </box>
 }
 
 export function ColorSchemeStack() {
   return <box vertical className="ColorSchemePreviewBox">
-    <Scrollable heightRequest={200} >
+    <Scrollable heightRequest={200} hscroll={Gtk.PolicyType.AUTOMATIC}>
       <box vertical className="ColorSchemePreviewBoxInner">
         <eventbox onClick={() => ExecWalImage(false)}>
           <box homogeneous>
@@ -204,17 +204,17 @@ export function ColorSchemeStack() {
             <label className="ColorSchemeName" css={`font-size: 14px; margin-bottom: 4px;`} halign={Gtk.Align.START} label={"wal -l"} />
           </box>
         </eventbox>
+
         {GetColorSchemes().map((path: string, index: number) => (
           <eventbox onClick={() => ExecWalPreset(path)}>
-            <box homogeneous>
-              <box>
-                <label className="ColorSchemeName" css={`font-size: 14px;`} halign={Gtk.Align.START} label={path.slice(0, path.length - 5)} />
+            <box halign={Gtk.Align.FILL} hexpand >
+              <box halign={Gtk.Align.START}>
+                <label halign={Gtk.Align.START} className="ColorSchemeName" css={`font-size: 14px;`} label={path.slice(0, path.length - 5)} />
               </box>
 
-              <box>
+              <box halign={Gtk.Align.END} hexpand>
                 <ColorPreview schemeFileName={path} />
               </box>
-
             </box>
           </eventbox>
         ))}

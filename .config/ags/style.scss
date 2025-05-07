@@ -3,6 +3,7 @@
 * {
 
   text-shadow: none;
+  border: none;
 }
 
 window.Bar {
@@ -77,7 +78,7 @@ button:hover {
 .OrgMenuBox,
 .KeyVisualizerBox {
   background: transparentize($color: $background, $amount: 0.1);
-  border-radius: 8px;
+  border-radius: 2px;
   padding: 4px;
   min-width: 300px;
 }
@@ -125,6 +126,7 @@ button:hover {
 .ColorSchemePreviewBox {
   min-width: 300px;
   padding-bottom: 8px;
+  border: none;
   border-bottom: 1px solid #{$color7};
 }
 

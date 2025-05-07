@@ -31,9 +31,9 @@ cp "$FOOT_CONFIG" "${FOOT_CONFIG}.bak"
 cat > "$FOOT_CONFIG" <<EOF
 
 [main]
-font=DepartureMono Nerd Font:size=7
+font=Hack Nerd Font Mono:size=12
 font-size-adjustment=1px
-dpi-aware=yes
+dpi-aware=no
 
 [colors]
 foreground=${COLORS[7]}

@@ -9,14 +9,14 @@
     progress_bar_max_width = 280
     progress_bar_corner_radius = 2
 
-    padding = 10
+    padding = 4
     horizontal_padding = 10
     frame_width = 0
     gap_size = 3
-    font = "FiraCode Nerd Font 11"
+    font = "GoMono Nerd Font"
 
     enable_recursive_icon_lookup = true
-    corner_radius = 16
+    corner_radius = 4
 
     background = "#120f0dCC"
     foreground = "#e0eeedCC"
